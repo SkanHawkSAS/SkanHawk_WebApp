@@ -8,7 +8,7 @@ RUN apt-get install curl
 RUN apt-get install apt-transport-https
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | tee /etc/apt/sources.list.d/msprod.list
-
+RUN apt-get remove unixodbc mssql-tools odbcinst libodbc1
 RUN apt-get update
 RUN apt-get install mssql-tools unixodbc-dev
 
