@@ -10,24 +10,24 @@ from schemas.rig import Rig
 
 rig = APIRouter()
 
-@rigs.get('/rigs')
+@rig.get('/rigs')
 def get_users():
     return conn.execute(rigs.select()).fetchall()
 
-@rigs.post('/rigs')
+@rig.post('/rigs')
 def create_user(rig: Rig):
     new_rig = {"number": rig.number, "zone": rig.name, "operator": rig.operator, "owner": rig.owner}
     result = conn.execute(rigs.insert().values(new_rig))
     print(result)
     return "User created successfully"
 
-@rigs.put('/rigs/{id}')
+@rig.put('/rigs/{id}')
 def edit_rig(id:int, rig:Rig):
     conn.execute(rigs.update().values(number=rig.number, zone=rig.name, operator=rig.operator, owner=rig.owner).where(rigs.c.id == id))
     rig = conn.execute(rigs.select().where(rigs.c.id == id)).first()
     return f' Se actualizó correctamente el Rig {rig.number}'
 
-@rigs.delete('/rigs/{id}')
+@rig.delete('/rigs/{id}')
 def delete_user(id:int):
     rig = conn.execute(rigs.select().where(rigs.c.id == id)).first()
     conn.execute(rigs.delete().where(rigs.c.id == id))
