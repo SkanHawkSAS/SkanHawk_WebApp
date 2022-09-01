@@ -8,7 +8,7 @@ from models.rig import rigs
 from schemas.rig import Rig
 
 
-rigs = APIRouter()
+rig = APIRouter()
 
 @rigs.get('/rigs')
 def get_users():
