@@ -11,3 +11,4 @@ class OpData(BaseModel):
     velocidadBloque: float
     profundidad: float    
     contadorTuberia: int
+    operacion: str

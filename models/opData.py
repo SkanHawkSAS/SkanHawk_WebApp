@@ -10,7 +10,8 @@ opsData = Table("operational_data", meta, Column("id", Integer, primary_key=True
     Column("posicionBloque", Float),
     Column("velocidadBloque", Float),
     Column("profundidad", Float),
-    Column("contadorTuberia", Integer)
+    Column("contadorTuberia", Integer),
+    Column("operacion", String(255))
 )
 
 meta.create_all(engine)
