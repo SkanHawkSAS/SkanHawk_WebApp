@@ -4,20 +4,23 @@ WORKDIR /usr/src/
 ADD requirements.txt .
 
 
-RUN apt-get update \
- && apt-get install --yes --no-install-recommends \
-        apt-transport-https \
-        curl \
-        gnupg \
-        unixodbc-dev \
- && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
- && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
- && apt-get update \
- && ACCEPT_EULA=Y apt-get install --yes --no-install-recommends msodbcsql17 \
- && install2.r odbc \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* \
- && rm -rf /tmp/*
+RUN if ! [[ "16.04 18.04 20.04 22.04" == *"$(lsb_release -rs)"* ]]; \
+then\
+    echo "Ubuntu $(lsb_release -rs) is not currently supported.";\
+    exit;\
+fi\
+sudo su\
+curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -\
+curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list > /etc/apt/sources.list.d/mssql-release.list\
+exit\
+sudo apt-get update\
+sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17\
+# optional: for bcp and sqlcmd
+sudo ACCEPT_EULA=Y apt-get install -y mssql-tools\
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc\
+source ~/.bashrc\
+# optional: for unixODBC development headers
+sudo apt-get install -y unixodbc-dev
 
 
 COPY . .
