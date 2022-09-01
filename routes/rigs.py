@@ -10,6 +10,9 @@ from schemas.rig import Rig
 
 rig = APIRouter()
 
+
+######################################################################################################################
+##### CRUD 
 @rig.get('/rigs')
 def get_users():
     return conn.execute(rigs.select()).fetchall()
@@ -23,7 +26,7 @@ def create_user(rig: Rig):
 
 @rig.put('/rigs/{id}')
 def edit_rig(id:int, rig:Rig):
-    conn.execute(rigs.update().values(number=rig.number, zone=rig.name, operator=rig.operator, owner=rig.owner).where(rigs.c.id == id))
+    conn.execute(rigs.update().values(number=rig.number, zone=rig.zone, operator=rig.operator, owner=rig.owner).where(rigs.c.id == id))
     rig = conn.execute(rigs.select().where(rigs.c.id == id)).first()
     return f' Se actualizó correctamente el Rig {rig.number}'
 
@@ -32,3 +35,5 @@ def delete_user(id:int):
     rig = conn.execute(rigs.select().where(rigs.c.id == id)).first()
     conn.execute(rigs.delete().where(rigs.c.id == id))
     return f"se elimino el usuario {rig.number}"
+
+##########################################################################################################################
