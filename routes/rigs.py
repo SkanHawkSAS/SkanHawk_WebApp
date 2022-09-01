@@ -16,7 +16,7 @@ def get_users():
 
 @rig.post('/rigs')
 def create_user(rig: Rig):
-    new_rig = {"number": rig.number, "zone": rig.name, "operator": rig.operator, "owner": rig.owner}
+    new_rig = {"number": rig.number, "zone": rig.zone, "operator": rig.operator, "owner": rig.owner}
     result = conn.execute(rigs.insert().values(new_rig))
     print(result)
     return "User created successfully"

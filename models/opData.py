@@ -1,5 +1,3 @@
-from sqlite3 import Date
-from sre_parse import FLAGS
 from tokenize import String
 from sqlalchemy import Table, Column
 from sqlalchemy.sql.sqltypes import Integer, String, Float, DateTime
