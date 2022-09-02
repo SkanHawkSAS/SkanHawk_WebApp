@@ -47,6 +47,8 @@ def delete_rig(id:int):
 ## Funcionalidades
 @rig.get('/rigs/{id}')
 def get_rig_data(id:int):
+
+    deviceId = f'IndependenceRig{id}'
     # Con este query obtengo los 60 registros mas recientes de la base de datos de SQL server
     query = f'''
         SELECT TOP 60 
@@ -58,7 +60,7 @@ def get_rig_data(id:int):
             profundidad,
             contador_tuberia
             FROM tlc.Ecopetrol_Operational_data_SH
-        WHERE deviceId = 'IndependenceRig{id}'			
+        WHERE deviceId = '{deviceId}'			
         ORDER BY fecha_hora DESC
     '''
     data = pd.read_sql_query(query, sqlEngine)
@@ -68,12 +70,13 @@ def get_rig_data(id:int):
 
     data = evaluate_data(data)
     
-    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).limit(60)).fetchall()
+    lastReg = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(rigs.c.deviceId == deviceId).limit(1)).fetchall()
 
     dataDB = pd.DataFrame(dataDB)
-    if not dataDB.empty:
-        data = pd.merge(dataDB, data, how='right')
-    
+    dataDB.head()
+
+    # Obtengo la ultima fila
+    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).limit(60)).fetchall()
 
     # agrego la data al base de datos local
     
