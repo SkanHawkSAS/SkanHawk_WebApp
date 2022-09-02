@@ -8,6 +8,7 @@ from models.opData import opsData
 from schemas.opData import OpData
 from models.rig import rigs
 from schemas.rig import Rig
+from sqlalchemy import desc
 
 # Librerias matematicas
 import pandas as pd
@@ -22,7 +23,7 @@ rig = APIRouter()
 ##### CRUD 
 @rig.get('/rigs')
 def get_rig():
-    return psconn.execute(rigs.select().order_by(rigs.c.id).desc().limit(2)).fetchall()
+    return psconn.execute(rigs.select().order_by(desc(rigs.c.id).limit(2)).fetchall()
 
 @rig.post('/rigs')
 def create_rig(rig: Rig):
