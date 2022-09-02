@@ -109,7 +109,7 @@ def get_rig_data(id:int):
                             "contadorTuberia": row.contador_tuberia,
                             "operacion": row.operacion}
                             
-        psconn.execute(opsData.insert().values(new_data))   
+            psconn.execute(opsData.insert().values(new_data))   
 
     return HTMLResponse(data.to_html())
 
