@@ -76,6 +76,7 @@ def get_rig_data(id:int):
     # agrego la data al base de datos local
     
     for row in data.itertuples():
+        # Se agregan solo los registros nuevos
         if not dataDB.empty:
             if dataDB['fechaHora'][0] < row.fecha_hora:
                 new_data = {"fechaHora": row.fecha_hora,
