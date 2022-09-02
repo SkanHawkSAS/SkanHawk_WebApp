@@ -76,15 +76,26 @@ def get_rig_data(id:int):
     # agrego la data al base de datos local
     
     for row in data.itertuples():
-        if dataDB['fechaHora'][0] < row.fecha_hora:
+        if not dataDB.empty:
+            if dataDB['fechaHora'][0] < row.fecha_hora:
+                new_data = {"fechaHora": row.fecha_hora,
+                                "deviceId": row.deviceId,
+                                "cargaGancho": row.carga_gancho,
+                                "posicionBloque": row.posicion_bloque,
+                                "velocidadBloque": row.velocidad_bloque,
+                                "profundidad": row.profundidad,
+                                "contadorTuberia": row.contador_tuberia,
+                                "operacion": row.operacion}
+                psconn.execute(opsData.insert().values(new_data))
+        else:
             new_data = {"fechaHora": row.fecha_hora,
-                            "deviceId": row.deviceId,
-                            "cargaGancho": row.carga_gancho,
-                            "posicionBloque": row.posicion_bloque,
-                            "velocidadBloque": row.velocidad_bloque,
-                            "profundidad": row.profundidad,
-                            "contadorTuberia": row.contador_tuberia,
-                            "operacion": row.operacion}
+                                "deviceId": row.deviceId,
+                                "cargaGancho": row.carga_gancho,
+                                "posicionBloque": row.posicion_bloque,
+                                "velocidadBloque": row.velocidad_bloque,
+                                "profundidad": row.profundidad,
+                                "contadorTuberia": row.contador_tuberia,
+                                "operacion": row.operacion}
             psconn.execute(opsData.insert().values(new_data))   
 
     return HTMLResponse(data.to_html())
