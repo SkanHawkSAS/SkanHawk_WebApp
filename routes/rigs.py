@@ -67,14 +67,16 @@ def get_rig_data(id:int):
     data = data.sort_values('fecha_hora').reset_index(drop=True)
 
     data = evaluate_data(data)
+
     
+     # Obtengo la ultima fila
+
     dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
 
     dataDB = pd.DataFrame(dataDB)
 
-    # Obtengo la ultima fila
-    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).limit(60)).fetchall()
-
+    print(dataDB.head())
+   
     # agrego la data al base de datos local
     
     for row in data.itertuples():
