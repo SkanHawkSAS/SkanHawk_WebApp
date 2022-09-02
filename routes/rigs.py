@@ -57,4 +57,5 @@ async def get_rig_data(id:int):
         ORDER BY fecha_hora DESC
     '''
     data = pd.read_sql_query(query, sqlEngine)
-    return data
+    
+    return data.to_json()
