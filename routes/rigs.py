@@ -23,7 +23,7 @@ rig = APIRouter()
 ##### CRUD 
 @rig.get('/rigs')
 def get_rig():
-    return psconn.execute(rigs.select().order_by(desc(rigs.c.id)).limit(2)).fetchall()
+    return psconn.execute(rigs.select()).fetchall()
 
 @rig.post('/rigs')
 def create_rig(rig: Rig):
@@ -68,8 +68,9 @@ def get_rig_data(id:int):
 
     data = evaluate_data(data)
     
+    dataDB = psconn.execute(rigs.select().order_by(desc(rigs.c.id)).limit(30)).fetchall()
+    print(type(dataDB))
 
-    # dataDB = psconn.execute(rigs.order_by(rigs.id.desc()).select()).first()
     # agrego la data al base de datos local
     for row in data.itertuples():
 
