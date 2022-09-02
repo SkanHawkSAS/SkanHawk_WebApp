@@ -1,4 +1,3 @@
-from tkinter.ttk import Style
 from pydantic import BaseModel
 from typing import Optional
 
