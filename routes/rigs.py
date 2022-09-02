@@ -72,10 +72,8 @@ def get_rig_data(id:int):
 
     dataDB = pd.DataFrame(dataDB)
 
-    print(dataDB.head())
-
     # agrego la data al base de datos local
-    if len(dataDB) != 0:
+    if dataDB.empty:
         # reorganizo la data en del mas viejo al mas nuevo
         dataDB = dataDB.sort_values('fechaHora').reset_index(drop=True)
 
