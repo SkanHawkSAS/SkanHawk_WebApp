@@ -69,6 +69,9 @@ def get_rig_data(id:int):
     data = evaluate_data(data)
     
     dataDB = psconn.execute(rigs.select().order_by(desc(rigs.c.id)).limit(30)).fetchall()
+
+    dataDB = pd.DataFrame(dataDB)
+    print(dataDB.head())
     print(type(dataDB))
 
     # agrego la data al base de datos local
