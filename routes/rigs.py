@@ -1,4 +1,4 @@
-import numbers
+# Librerias de desarrollo web
 from fastapi import APIRouter, Response
 from fastapi.responses import HTMLResponse
 from config.db import conn as psconn
@@ -8,8 +8,12 @@ from models.opData import opsData
 from schemas.opData import OpData
 from models.rig import rigs
 from schemas.rig import Rig
-import pandas as pd
 
+# Librerias matematicas
+import pandas as pd
+import numpy as np
+import keras
+from sklearn.preprocessing import StandardScaler
 
 rig = APIRouter()
 
@@ -58,5 +62,39 @@ def get_rig_data(id:int):
         ORDER BY fecha_hora DESC
     '''
     data = pd.read_sql_query(query, sqlEngine)
+
+    # reorganizo la data en del mas viejo al mas nuevo
+    data = data.sort_values('fecha_hora').reset_index(drop=True)
+
+    data = evaluate_data(data)
     
     return HTMLResponse(data.to_html())
+
+
+def evaluate_data(data):
+
+    data = data
+
+    columns = ['posicion_bloque', 'profundidad', 'velocidad_bloque', 'carga_gancho', 'contador_tuberia']
+
+    scaler = StandardScaler()
+    scaler.fit(data[columns].values)
+
+    # Cargo el modelo
+    model = keras.models.load_model('./ML/ML_Model.h5')
+
+    data_Scale = scaler.transform(data[columns].values)
+
+    data_expand = np.expand_dims(data_Scale, axis=0)
+
+    labels = ['POOH', 'RIH', 'OTHER']    
+
+    prediction = model.predict(data_expand)
+
+    value_label = labels[np.argmax(prediction)]
+
+    tag = [value_label]*data_expand.shape[1]
+
+    data['Ops'] = tag
+
+    return data
