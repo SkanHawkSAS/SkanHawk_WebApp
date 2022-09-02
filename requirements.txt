@@ -5,3 +5,4 @@ cryptography
 psycopg2
 pandas
 pyodbc
+pymysql
