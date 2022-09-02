@@ -68,7 +68,7 @@ def get_rig_data(id:int):
 
     data = evaluate_data(data)
     
-    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(rigs.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
+    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
 
     dataDB = pd.DataFrame(dataDB)
     if not dataDB.empty:
