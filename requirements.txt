@@ -1,7 +1,6 @@
 fastapi
 uvicorn
 sqlalchemy
-pygresql
 cryptography
 psycopg2
 pandas
