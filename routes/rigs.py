@@ -23,7 +23,7 @@ rig = APIRouter()
 ##### CRUD 
 @rig.get('/rigs')
 def get_rig():
-    return psconn.execute(rigs.select().order_by(desc(rigs.c.id).limit(2)).fetchall()
+    return psconn.execute(rigs.select().order_by(desc(rigs.c.id).limit(2))).fetchall()
 
 @rig.post('/rigs')
 def create_rig(rig: Rig):
