@@ -71,8 +71,6 @@ def get_rig_data(id:int):
     dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
 
     dataDB = pd.DataFrame(dataDB)
-    if not dataDB.empty:
-        data = pd.merge(dataDB, data, how='right')
 
     # Obtengo la ultima fila
     dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).limit(60)).fetchall()
