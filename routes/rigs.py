@@ -72,7 +72,7 @@ def get_rig_data(id:int):
 
     dataDB = pd.DataFrame(dataDB)
 
-    
+    print(dataDB.head())
 
     # agrego la data al base de datos local
     if len(dataDB) != 0:
