@@ -76,7 +76,7 @@ def get_rig_data(id:int):
     # agrego la data al base de datos local
     
     for row in data.itertuples():
-        if dataDB.fechaHora[0] < row.fecha_hora:
+        if dataDB['fechaHora'][0] < row.fecha_hora:
             new_data = {"fechaHora": row.fecha_hora,
                             "deviceId": row.deviceId,
                             "cargaGancho": row.carga_gancho,
