@@ -18,7 +18,7 @@ rig = APIRouter()
 ##### CRUD 
 @rig.get('/rigs')
 async def get_rig():
-    return await psconn.execute(rigs.select()).fetchall()
+    return psconn.execute(rigs.select()).fetchall()
 
 @rig.post('/rigs')
 async def create_rig(rig: Rig):
