@@ -84,7 +84,6 @@ def get_rig_data(id:int):
                         if row2.operacion != row.operacion:
                             print(id_row)
                             psconn.execute(opsData.update().values(operacion=row.operacion).where(opsData.c.id == id_row))
-                        
 
                     else:
                         new_data = {"fechaHora": row.fecha_hora,
@@ -95,9 +94,8 @@ def get_rig_data(id:int):
                                 "profundidad": row.profundidad,
                                 "contadorTuberia": row.contador_tuberia,
                                 "operacion": row.operacion}
-                        
+                            
                         psconn.execute(opsData.insert().values(new_data))
-                        break
 
     else:
         for row in data.itertuples():
