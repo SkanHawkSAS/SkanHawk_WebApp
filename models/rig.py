@@ -4,7 +4,7 @@ from sqlalchemy.sql.sqltypes import Integer, String
 from config.db import meta, engine
 
 rigs = Table("rigs", meta, Column("id", Integer, primary_key=True),
-    Column("number", String(255)), 
+    Column("number", String(255), unique = True), 
     Column("zone", String(255)), 
     Column("operator", String(255)),
     Column("owner", String(255)))

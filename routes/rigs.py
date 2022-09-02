@@ -28,7 +28,6 @@ def get_rig():
 def create_rig(rig: Rig):
     new_rig = {"number": rig.number, "zone": rig.zone, "operator": rig.operator, "owner": rig.owner}
     result = psconn.execute(rigs.insert().values(new_rig))
-    print(result)
     return "Rig added successfully"
 
 @rig.put('/rigs/{id}')
@@ -67,7 +66,21 @@ def get_rig_data(id:int):
     data = data.sort_values('fecha_hora').reset_index(drop=True)
 
     data = evaluate_data(data)
-    
+
+    # agrego la data al base de datos local
+    for row in data.itertuples():
+
+        new_data = {"fechaHora": row.fecha_hora,
+                     "deviceId": row.deviceId,
+                     "cargaGancho": row.carga_gancho,
+                     "posicionBloque": row.posicion_bloque,
+                     "velocidadBloque": row.velocidad_bloque,
+                     "profundidad": row.profundidad,
+                     "contadorTuberia": row.contador_tuberia,
+                     "operacion": row.operacion}
+                     
+        psconn.execute(rigs.insert().values(new_data))
+        
     return HTMLResponse(data.to_html())
 
 
@@ -95,6 +108,6 @@ def evaluate_data(data):
 
     tag = [value_label]*data_expand.shape[1]
 
-    data['Ops'] = tag
+    data['operacion'] = tag
 
     return data

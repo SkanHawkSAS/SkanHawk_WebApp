@@ -3,8 +3,17 @@ from fastapi.responses import HTMLResponse
 from config.db import conn
 from models.user import users
 from schemas.user import User
+from cryptography.fernet import Fernet
+
+
+
 
 user = APIRouter()
+
+key = Fernet.generate_key()
+f = Fernet(key)
+
+
 
 @user.get('/')
 def helloWorld():
@@ -16,10 +25,10 @@ def get_users():
 
 @user.post('/users')
 def create_user(user: User):
-    new_user = {"name": user.name, "email": user.email, "password": user.password}
+    new_user = {"name": user.name, "email": user.email}
+    new_user["password"] = f.encrypt(user.password.encode("utf-8"))
     result = conn.execute(users.insert().values(new_user))
-    print(result)
-    return "hello world"
+    return conn.execute(users.select().where(users.c.id == result.lastrowid)).first()
 
 @user.put('/users/{id}')
 def edit_user(id:int, user:User):
