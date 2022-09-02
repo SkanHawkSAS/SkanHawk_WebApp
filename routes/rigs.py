@@ -68,9 +68,13 @@ def get_rig_data(id:int):
 
     data = evaluate_data(data)
     
-    dataDB = psconn.execute(rigs.select().order_by(desc(rigs.c.id)).limit(30)).fetchall()
+    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).limit(30)).fetchall()
 
     dataDB = pd.DataFrame(dataDB)
+
+    # reorganizo la data en del mas viejo al mas nuevo
+    dataDB = dataDB.sort_values('id').reset_index(drop=True)
+
     print(dataDB.head())
     print(type(dataDB))
 
