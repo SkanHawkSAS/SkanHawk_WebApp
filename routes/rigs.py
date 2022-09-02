@@ -79,11 +79,12 @@ def get_rig_data(id:int):
 
         for row in data.itertuples():
                 for row2 in dataDB.itertuples():
-                    if row2.fecha_hora == row.fecha_hora and row2.deviceId == row.deviceId and row2.operacion != row.operacion:
+                    if row2.fecha_hora == row.fecha_hora and row2.deviceId == row.deviceId and row2.operacion:
                         
                         id_row = row2.id
                         print(id_row)
-                        psconn.execute(opsData.update().values(operacion=row.operacion).where(opsData.c.id == id_row))
+                        if row2.operacion != row.operacion:
+                            psconn.execute(opsData.update().values(operacion=row.operacion).where(opsData.c.id == id_row))
 
                     else:
                         new_data = {"fechaHora": row.fecha_hora,
@@ -96,7 +97,8 @@ def get_rig_data(id:int):
                                 "operacion": row.operacion}
                             
                         psconn.execute(opsData.insert().values(new_data))
-    else:
+
+    elif dataDB.empty:
         for row in dataDB.itertuples():
             new_data = {"fechaHora": row.fecha_hora,
                             "deviceId": row.deviceId,
