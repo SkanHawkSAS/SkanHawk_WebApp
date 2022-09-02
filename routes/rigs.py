@@ -108,7 +108,7 @@ def get_rig_data(id:int):
                             "profundidad": row.profundidad,
                             "contadorTuberia": row.contador_tuberia,
                             "operacion": row.operacion}
-                            
+            print("Hola")
             psconn.execute(opsData.insert().values(new_data))   
 
     return HTMLResponse(data.to_html())
