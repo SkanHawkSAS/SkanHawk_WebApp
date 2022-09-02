@@ -8,3 +8,4 @@ pyodbc
 pymysql
 keras
 scikit-learn
+tensorflow
