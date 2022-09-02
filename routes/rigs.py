@@ -17,32 +17,33 @@ rig = APIRouter()
 ######################################################################################################################
 ##### CRUD 
 @rig.get('/rigs')
-async def get_rig():
+def get_rig():
     return psconn.execute(rigs.select()).fetchall()
 
 @rig.post('/rigs')
-async def create_rig(rig: Rig):
+def create_rig(rig: Rig):
     new_rig = {"number": rig.number, "zone": rig.zone, "operator": rig.operator, "owner": rig.owner}
-    result = await psconn.execute(rigs.insert().values(new_rig))
+    result = psconn.execute(rigs.insert().values(new_rig))
     print(result)
-    return "User created successfully"
+    return "Rig added successfully"
 
 @rig.put('/rigs/{id}')
-async def edit_rig(id:int, rig:Rig):
-    await psconn.execute(rigs.update().values(number=rig.number, zone=rig.zone, operator=rig.operator, owner=rig.owner).where(rigs.c.id == id))
-    rig = await psconn.execute(rigs.select().where(rigs.c.id == id)).first()
+def edit_rig(id:int, rig:Rig):
+    psconn.execute(rigs.update().values(number=rig.number, zone=rig.zone, operator=rig.operator, owner=rig.owner).where(rigs.c.id == id))
+    rig = psconn.execute(rigs.select().where(rigs.c.id == id)).first()
     return f' Se actualizó correctamente el Rig {rig.number}'
 
 @rig.delete('/rigs/{id}')
-async def delete_rig(id:int):
-    rig = await psconn.execute(rigs.select().where(rigs.c.id == id)).first()
-    await psconn.execute(rigs.delete().where(rigs.c.id == id))
+def delete_rig(id:int):
+    rig = psconn.execute(rigs.select().where(rigs.c.id == id)).first()
+    psconn.execute(rigs.delete().where(rigs.c.id == id))
     return f"se elimino el usuario {rig.number}"
 
 ##########################################################################################################################
 ## Funcionalidades
 @rig.get('/rigs/{id}')
-async def get_rig_data(id:int):
+def get_rig_data(id:int):
+    # Con este query obtengo los 60 registros mas recientes de la base de datos de SQL server
     query = f'''
         SELECT TOP 60 
             fecha_hora,
