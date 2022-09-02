@@ -77,23 +77,37 @@ def get_rig_data(id:int):
 
     # agrego la data al base de datos local
     for row in data.itertuples():
-        for row2 in dataDB.itertuples():
-            if row2.fecha_hora == row.fecha_hora and row2.deviceId == row.deviceId:
-                id_row = row2.id
-                psconn.execute(opsData.update().values(operacion=row.operacion).where(opsData.c.id == id_row))
+        if len(dataDB["id"]) != 0:
+            for row2 in dataDB.itertuples():
+                if row2.fecha_hora == row.fecha_hora and row2.deviceId == row.deviceId and row2.operacion != row.operacion:
+                    
+                    id_row = row2.id
+                    print(id_row)
+                    psconn.execute(opsData.update().values(operacion=row.operacion).where(opsData.c.id == id_row))
 
-            else:
-                new_data = {"fechaHora": row.fecha_hora,
-                        "deviceId": row.deviceId,
-                        "cargaGancho": row.carga_gancho,
-                        "posicionBloque": row.posicion_bloque,
-                        "velocidadBloque": row.velocidad_bloque,
-                        "profundidad": row.profundidad,
-                        "contadorTuberia": row.contador_tuberia,
-                        "operacion": row.operacion}
-                     
-                psconn.execute(opsData.insert().values(new_data))
-
+                else:
+                    new_data = {"fechaHora": row.fecha_hora,
+                            "deviceId": row.deviceId,
+                            "cargaGancho": row.carga_gancho,
+                            "posicionBloque": row.posicion_bloque,
+                            "velocidadBloque": row.velocidad_bloque,
+                            "profundidad": row.profundidad,
+                            "contadorTuberia": row.contador_tuberia,
+                            "operacion": row.operacion}
+                        
+                    psconn.execute(opsData.insert().values(new_data))
+        else:
+            new_data = {"fechaHora": row.fecha_hora,
+                            "deviceId": row.deviceId,
+                            "cargaGancho": row.carga_gancho,
+                            "posicionBloque": row.posicion_bloque,
+                            "velocidadBloque": row.velocidad_bloque,
+                            "profundidad": row.profundidad,
+                            "contadorTuberia": row.contador_tuberia,
+                            "operacion": row.operacion}
+                        
+            psconn.execute(opsData.insert().values(new_data))   
+            
     return HTMLResponse(data.to_html())
 
 
