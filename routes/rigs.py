@@ -68,27 +68,24 @@ def get_rig_data(id:int):
 
     data = evaluate_data(data)
 
-    
+
      # Obtengo la ultima fila
 
     dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
-
-    dataDB = pd.DataFrame(dataDB)
-
-    print(dataDB.head())
    
     # agrego la data al base de datos local
     
     for row in data.itertuples():
-        new_data = {"fechaHora": row.fecha_hora,
-                        "deviceId": row.deviceId,
-                        "cargaGancho": row.carga_gancho,
-                        "posicionBloque": row.posicion_bloque,
-                        "velocidadBloque": row.velocidad_bloque,
-                        "profundidad": row.profundidad,
-                        "contadorTuberia": row.contador_tuberia,
-                        "operacion": row.operacion}
-        psconn.execute(opsData.insert().values(new_data))   
+        if dataDB.fechaHora < row.fecha_hora:
+            new_data = {"fechaHora": row.fecha_hora,
+                            "deviceId": row.deviceId,
+                            "cargaGancho": row.carga_gancho,
+                            "posicionBloque": row.posicion_bloque,
+                            "velocidadBloque": row.velocidad_bloque,
+                            "profundidad": row.profundidad,
+                            "contadorTuberia": row.contador_tuberia,
+                            "operacion": row.operacion}
+            psconn.execute(opsData.insert().values(new_data))   
 
     return HTMLResponse(data.to_html())
 
