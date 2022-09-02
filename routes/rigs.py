@@ -22,7 +22,7 @@ rig = APIRouter()
 ##### CRUD 
 @rig.get('/rigs')
 def get_rig():
-    return psconn.execute(rigs.select()).fetchall()
+    return psconn.execute(rigs.select().limit(2)).fetchall()
 
 @rig.post('/rigs')
 def create_rig(rig: Rig):
@@ -66,7 +66,9 @@ def get_rig_data(id:int):
     data = data.sort_values('fecha_hora').reset_index(drop=True)
 
     data = evaluate_data(data)
+    
 
+    # dataDB = psconn.execute(rigs.order_by(rigs.id.desc()).select()).first()
     # agrego la data al base de datos local
     for row in data.itertuples():
 
@@ -84,6 +86,7 @@ def get_rig_data(id:int):
     return HTMLResponse(data.to_html())
 
 
+# funcion que aplica el modelo de IA
 def evaluate_data(data):
 
     data = data
