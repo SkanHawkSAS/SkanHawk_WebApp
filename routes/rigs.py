@@ -99,7 +99,7 @@ def get_rig_data(id:int):
                             
                         psconn.execute(opsData.insert().values(new_data))
     else:
-        for row2 in dataDB.itertuples():
+        for row in dataDB.itertuples():
             new_data = {"fechaHora": row.fecha_hora,
                             "deviceId": row.deviceId,
                             "cargaGancho": row.carga_gancho,
