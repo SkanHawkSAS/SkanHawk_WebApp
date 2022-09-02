@@ -79,7 +79,7 @@ def get_rig_data(id:int):
 
         for row in data.itertuples():
                 for row2 in dataDB.itertuples():
-                    if row2.fecha_hora == row.fecha_hora and row2.deviceId == row.deviceId and row2.operacion:
+                    if row2.fechaHora == row.fecha_hora and row2.deviceId == row.deviceId and row2.operacion:
                         
                         id_row = row2.id
                         print(id_row)
@@ -108,7 +108,6 @@ def get_rig_data(id:int):
                             "profundidad": row.profundidad,
                             "contadorTuberia": row.contador_tuberia,
                             "operacion": row.operacion}
-            print("Hola")
             psconn.execute(opsData.insert().values(new_data))   
 
     return HTMLResponse(data.to_html())
