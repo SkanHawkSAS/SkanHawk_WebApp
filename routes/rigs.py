@@ -84,6 +84,7 @@ def get_rig_data(id:int):
                         if row2.operacion != row.operacion:
                             print(id_row)
                             psconn.execute(opsData.update().values(operacion=row.operacion).where(opsData.c.id == id_row))
+                            break
 
                     else:
                         new_data = {"fechaHora": row.fecha_hora,
