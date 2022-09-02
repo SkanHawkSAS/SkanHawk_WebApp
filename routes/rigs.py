@@ -73,7 +73,7 @@ def get_rig_data(id:int):
     dataDB = pd.DataFrame(dataDB)
 
     # reorganizo la data en del mas viejo al mas nuevo
-    dataDB = dataDB.sort_values('id').reset_index(drop=True)
+    dataDB = dataDB.sort_values('fechaHora').reset_index(drop=True)
 
     # agrego la data al base de datos local
     for row in data.itertuples():
@@ -83,7 +83,7 @@ def get_rig_data(id:int):
                     
                     id_row = row2.id
                     print(id_row)
-                    psconn.execute(opsData.update().values(operacion=row.operacion).where(opsData.c.id == id_row))
+                    psconn.execute(opsData.update().values(operacion=row.operacion).where(opsData.c.fechaHora == id_row))
 
                 else:
                     new_data = {"fechaHora": row.fecha_hora,
@@ -107,7 +107,7 @@ def get_rig_data(id:int):
                             "operacion": row.operacion}
                         
             psconn.execute(opsData.insert().values(new_data))   
-            
+
     return HTMLResponse(data.to_html())
 
 
