@@ -43,7 +43,7 @@ async def delete_rig(id:int):
 ## Funcionalidades
 @rig.get('/rigs/{id}')
 async def get_rig_data(id:int):
-    query = '''
+    query = f'''
         SELECT TOP 60 
             fecha_hora,
 			deviceId,
