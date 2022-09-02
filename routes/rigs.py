@@ -58,4 +58,4 @@ async def get_rig_data(id:int):
     '''
     data = pd.read_sql_query(query, sqlEngine)
     
-    return data.to_json()
+    return HTMLResponse(data.to_html())
