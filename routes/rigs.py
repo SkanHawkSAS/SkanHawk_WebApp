@@ -98,8 +98,8 @@ def get_rig_data(id:int):
                             
                         psconn.execute(opsData.insert().values(new_data))
 
-    elif dataDB.empty:
-        for row in dataDB.itertuples():
+    else:
+        for row in data.itertuples():
             new_data = {"fechaHora": row.fecha_hora,
                             "deviceId": row.deviceId,
                             "cargaGancho": row.carga_gancho,
@@ -109,9 +109,7 @@ def get_rig_data(id:int):
                             "contadorTuberia": row.contador_tuberia,
                             "operacion": row.operacion}
             print("Hola")
-            psconn.execute(opsData.insert().values(new_data)) 
-    else:
-        print("Hola 2")  
+            psconn.execute(opsData.insert().values(new_data))   
 
     return HTMLResponse(data.to_html())
 
