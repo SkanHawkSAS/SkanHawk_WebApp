@@ -68,7 +68,7 @@ def get_rig_data(id:int):
 
     data = evaluate_data(data)
     
-    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).limit(10)).fetchall()
+    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).limit(60)).fetchall()
 
     dataDB = pd.DataFrame(dataDB)
 
@@ -76,26 +76,28 @@ def get_rig_data(id:int):
     if not dataDB.empty:
         # reorganizo la data en del mas viejo al mas nuevo
         dataDB = dataDB.sort_values('fechaHora').reset_index(drop=True)
-        
-        contador = 0
-        for row in data.itertuples():
-                
-            if dataDB[contador].fechaHora == row.fecha_hora and dataDB[contador].deviceId == row.deviceId:
-                id_row = dataDB[contador].id
-                psconn.execute(opsData.update().values(operacion=row.operacion).where(opsData.c.id == id_row))
 
-            else:
-                new_data = {"fechaHora": row.fecha_hora,
-                        "deviceId": row.deviceId,
-                        "cargaGancho": row.carga_gancho,
-                        "posicionBloque": row.posicion_bloque,
-                        "velocidadBloque": row.velocidad_bloque,
-                        "profundidad": row.profundidad,
-                        "contadorTuberia": row.contador_tuberia,
-                        "operacion": row.operacion}
-                
-                psconn.execute(opsData.insert().values(new_data))
-                break
+        for row in data.itertuples():
+                for row2 in dataDB.itertuples():
+                    if row2.fechaHora == row.fecha_hora and row2.deviceId == row.deviceId:
+                        id_row = row2.id
+                        if row2.operacion != row.operacion:
+                            print(id_row)
+                            psconn.execute(opsData.update().values(operacion=row.operacion).where(opsData.c.id == id_row))
+                        
+
+                    else:
+                        new_data = {"fechaHora": row.fecha_hora,
+                                "deviceId": row.deviceId,
+                                "cargaGancho": row.carga_gancho,
+                                "posicionBloque": row.posicion_bloque,
+                                "velocidadBloque": row.velocidad_bloque,
+                                "profundidad": row.profundidad,
+                                "contadorTuberia": row.contador_tuberia,
+                                "operacion": row.operacion}
+                        
+                        psconn.execute(opsData.insert().values(new_data))
+                        break
 
     else:
         for row in data.itertuples():
