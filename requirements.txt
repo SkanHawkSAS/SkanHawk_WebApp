@@ -9,3 +9,5 @@ pymysql
 keras
 scikit-learn
 tensorflow
+pyjwt
+email-validator

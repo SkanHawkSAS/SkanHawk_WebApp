@@ -32,7 +32,8 @@ def create_user(user: User):
 
 @user.put('/users/{id}')
 def edit_user(id:int, user:User):
-    conn.execute(users.update().values(name=user.name, email=user.email, password=user.password).where(users.c.id == id))
+    password = f.encrypt(user.password.encode("utf-8"))
+    conn.execute(users.update().values(name=user.name, email=user.email, password=password, company=user.company, role=user.role, accessLevel=user.accessLevel).where(users.c.id == id))
     user = conn.execute(users.select().where(users.c.id == id)).first()
     return user
 
