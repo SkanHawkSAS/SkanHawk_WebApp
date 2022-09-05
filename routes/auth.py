@@ -8,7 +8,7 @@ from helpers.helpers import ValidateToken, WriteToken
 
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.sql.sqltypes import String
-
+from helpers.auth import AuthUser
 
 auth = APIRouter()
 
@@ -16,23 +16,22 @@ class loginInfo(BaseModel):
     email: EmailStr
     password: str
 
+
 @auth.post('/login')
 def Login(user: loginInfo):
 
     userEmail = user.email
     userPass = user.password
 
-    userInfo = conn.execute(users.select().where(users.c.email == userEmail)).first()
-
-    if userInfo != None:
-        pwd = userInfo.password
-        if userPass == pwd:
-            return WriteToken(user.dict())
+    userInfo = AuthUser(userEmail, userPass)
+    
+    if userInfo==1 or userInfo==2:
+        if userInfo == 1:
+            return JSONResponse(content={"message": "User not found"}, status_code=404)
         else:
             return JSONResponse(content={"message": "Incorrect Password"})
     else:
-        return JSONResponse(content={"message": "User not found"}, status_code=404)
-    
+        return WriteToken(user.dict())
     
     
 
