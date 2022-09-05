@@ -23,11 +23,16 @@ def Login(user: loginInfo):
     userPass = user.password
 
     userInfo = conn.execute(users.select().where(users.c.email == userEmail)).first()
-    pwd = userInfo.password
-    if userPass == pwd:
-        return WriteToken(user.dict())
+
+    if userInfo != None:
+        pwd = userInfo.password
+        if userPass == pwd:
+            return WriteToken(user.dict())
     else:
-        return JSONResponse(content={"message": "User not fount"}, status_code=404)
+        return JSONResponse(content={"message": "User not found"}, status_code=404)
+    
+    
+    
 
 
 @auth.post("/verify/token")
