@@ -8,7 +8,7 @@ from config.db import conn
 from models.user import users
 from schemas.user import User
 from cryptography.fernet import Fernet
-from users import f
+from routes.users import f
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.sql.sqltypes import String
 
