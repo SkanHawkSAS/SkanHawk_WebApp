@@ -12,7 +12,8 @@ class VerifyTokenRoute(APIRoute):
             token = request.headers["Authorization"].split(" ")[1]
 
             validationResponse = ValidateToken(token, output=False)
-            if ValidateToken == None:
+            print(validationResponse)
+            if validationResponse == None:
                 return await original_route(request)
             else:
                 return validationResponse
