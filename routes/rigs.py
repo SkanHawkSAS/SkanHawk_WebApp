@@ -22,23 +22,23 @@ rig = APIRouter()
 ######################################################################################################################
 ##### CRUD 
 @rig.get('/rigs')
-def get_rig():
+def GetRig():
     return psconn.execute(rigs.select()).fetchall()
 
 @rig.post('/rigs')
-def create_rig(rig: Rig):
+def CreateRig(rig: Rig):
     new_rig = {"number": rig.number, "zone": rig.zone, "operator": rig.operator, "owner": rig.owner}
     result = psconn.execute(rigs.insert().values(new_rig))
     return "Rig added successfully"
 
 @rig.put('/rigs/{id}')
-def edit_rig(id:int, rig:Rig):
+def EditRig(id:int, rig:Rig):
     psconn.execute(rigs.update().values(number=rig.number, zone=rig.zone, operator=rig.operator, owner=rig.owner).where(rigs.c.id == id))
     rig = psconn.execute(rigs.select().where(rigs.c.id == id)).first()
     return f' Se actualizó correctamente el Rig {rig.number}'
 
 @rig.delete('/rigs/{id}')
-def delete_rig(id:int):
+def DeleteRig(id:int):
     rig = psconn.execute(rigs.select().where(rigs.c.id == id)).first()
     psconn.execute(rigs.delete().where(rigs.c.id == id))
     return f"se elimino el usuario {rig.number}"
@@ -46,7 +46,7 @@ def delete_rig(id:int):
 ##########################################################################################################################
 ## Funcionalidades
 @rig.get('/rigs/{id}')
-def get_rig_data(id:int):
+def GetRigData(id:int):
     # Con este query obtengo los 60 registros mas recientes de la base de datos de SQL server
     query = f'''
         SELECT TOP 60 
@@ -66,7 +66,7 @@ def get_rig_data(id:int):
     # reorganizo la data en del mas viejo al mas nuevo
     data = data.sort_values('fecha_hora').reset_index(drop=True)
 
-    data = evaluate_data(data)
+    data = EvaluateData(data)
 
 
      # Obtengo la ultima fila
@@ -101,9 +101,8 @@ def get_rig_data(id:int):
 
     return HTMLResponse(data.to_html())
 
-
 # funcion que aplica el modelo de IA
-def evaluate_data(data):
+def EvaluateData(data):
 
     data = data
 
