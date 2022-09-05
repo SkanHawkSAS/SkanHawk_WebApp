@@ -7,8 +7,6 @@ from fastapi import APIRouter, Header
 from config.db import conn
 from models.user import users
 from schemas.user import User
-from cryptography.fernet import Fernet
-from routes.users import f
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.sql.sqltypes import String
 
@@ -26,10 +24,10 @@ def login(user: loginInfo):
     userPass = user.password
 
     userInfo = conn.execute(users.select().where(users.c.email == userEmail)).first()
-    pwd = userInfo.password.encode("utf-8")
-    if userPass == f.decrypt(pwd):
+    pwd = userInfo.password
+    if userPass == pwd:
         return userInfo
-    return f.decrypt(userInfo.password)
+    return userInfo.password
 
 
 

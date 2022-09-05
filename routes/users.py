@@ -10,11 +10,6 @@ from cryptography.fernet import Fernet
 
 user = APIRouter()
 
-key = Fernet.generate_key()
-f = Fernet(key)
-
-
-
 @user.get('/')
 def helloWorld():
     return HTMLResponse("<h1> Hello world </h1>")
@@ -26,13 +21,13 @@ def get_users():
 @user.post('/users')
 def create_user(user: User):
     new_user = {"name": user.name, "email": user.email, "company": user.company, "role": user.role, "accessLevel": user.accessLevel}
-    new_user["password"] = f.encrypt(user.password.encode("utf-8"))
+    new_user["password"] = user.password
     result = conn.execute(users.insert().values(new_user))
     return conn.execute(users.select().where(users.c.id == result.lastrowid)).first()
 
 @user.put('/users/{id}')
 def edit_user(id:int, user:User):
-    password = f.encrypt(user.password.encode("utf-8"))
+    password = user.password
     conn.execute(users.update().values(name=user.name, email=user.email, password=password, company=user.company, role=user.role, accessLevel=user.accessLevel).where(users.c.id == id))
     user = conn.execute(users.select().where(users.c.id == id)).first()
     return user
