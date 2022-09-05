@@ -5,7 +5,7 @@ from config.db import meta, engine
 
 users = Table("users", meta, Column("id", Integer, primary_key=True),
     Column("name", String(255)), 
-    Column("email", EmailStr, unique = True), 
+    Column("email", String(255), unique = True), 
     Column("password", String(255)),
     Column("company", String(255)),
     Column("role", String(255)),
