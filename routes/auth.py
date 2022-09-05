@@ -17,7 +17,7 @@ auth = APIRouter()
 
 class loginInfo(BaseModel):
     email: EmailStr
-    password: String(255)
+    password: str
 
 @auth.post('/login')
 def login(user: loginInfo):
