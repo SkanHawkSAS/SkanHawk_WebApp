@@ -16,7 +16,7 @@ import numpy as np
 import keras
 from sklearn.preprocessing import StandardScaler
 
-rig = APIRouter()
+rig = APIRouter(route_class=VerifyTokenRoute)
 
 
 ######################################################################################################################

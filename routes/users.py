@@ -3,12 +3,12 @@ from fastapi.responses import HTMLResponse
 from config.db import conn
 from models.user import users
 from schemas.user import User
-from cryptography.fernet import Fernet
+from middlewares.verifyTokenRoute import VerifyTokenRoute
 
 
 
 
-user = APIRouter()
+user = APIRouter(route_class=VerifyTokenRoute)
 
 @user.get('/')
 def helloWorld():
