@@ -9,6 +9,8 @@ from schemas.opData import OpData
 from models.rig import rigs
 from schemas.rig import Rig
 from sqlalchemy import desc
+from middlewares.verifyTokenRoute import VerifyTokenRoute
+
 
 # Librerias matematicas
 import pandas as pd
