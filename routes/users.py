@@ -6,8 +6,6 @@ from schemas.user import User
 from middlewares.verifyTokenRoute import VerifyTokenRoute
 
 
-
-
 user = APIRouter(route_class=VerifyTokenRoute)
 
 @user.get('/')

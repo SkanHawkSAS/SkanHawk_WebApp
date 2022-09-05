@@ -28,6 +28,8 @@ def Login(user: loginInfo):
         pwd = userInfo.password
         if userPass == pwd:
             return WriteToken(user.dict())
+        else:
+            return JSONResponse(content={"message": "Incorrect Password"})
     else:
         return JSONResponse(content={"message": "User not found"}, status_code=404)
     

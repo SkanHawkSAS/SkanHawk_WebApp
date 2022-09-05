@@ -8,7 +8,7 @@ from fastapi.routing import APIRoute
 class VerifyTokenRoute(APIRoute):
 
     def GetRouteHandler(self):
-        original_route = super().getRouteHandler()
+        original_route = super().GetRouteHandler()
 
         async def VerifyTokenMiddleware(request:Request):
             token = request.headers["Authorization"].split(" ")[1]
