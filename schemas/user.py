@@ -1,11 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import Optional
 
 
 class User(BaseModel):
     id: Optional[str]
     name: str
-    email: str
+    email: EmailStr
     password: str
     company: str
     role: str
