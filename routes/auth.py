@@ -26,7 +26,7 @@ def login(user: loginInfo):
     userPass = user.password
 
     userInfo = conn.execute(users.select().where(users.c.email == userEmail)).first()
-
+    print(userInfo.password, type(userInfo.password))
     if userPass == f.decrypt(userInfo.password):
         return userInfo
     return f.decrypt(userInfo.password)
