@@ -11,4 +11,4 @@ scikit-learn
 tensorflow
 pyjwt
 email-validator
-"passlib[bcrypt]"
+passlib[bcrypt]
