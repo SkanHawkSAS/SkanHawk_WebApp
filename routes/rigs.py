@@ -101,7 +101,7 @@ def GetRigData(id:int):
                                 "operacion": row.operacion}
             psconn.execute(opsData.insert().values(new_data))   
 
-    return HTMLResponse(data.to_html())
+    return data.to_json()
 
 # funcion que aplica el modelo de IA
 def EvaluateData(data):
