@@ -116,7 +116,7 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
     secs = hoursBefore*3600
     reg = int(secs/4)
 
-    dataDB = psconn.execute(opsData.select().where(opsData.c.deviceId == f'IndependenceRig{id}')).fetchall()
+    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
     dataDB = pd.DataFrame(dataDB)
 
     dataDB['fechaHora'] = dataDB['fechaHora'].astype(str)
