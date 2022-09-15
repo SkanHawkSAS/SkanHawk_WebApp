@@ -174,7 +174,7 @@ def GetRigDataRT(id:int):
 
      # Obtengo la ultima fila
 
-    dataDB = psconn.execute(opsData.select().order_by(asc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
+    dataDB = psconn.execute(opsData.select().order_by(opsData.c.id).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
     dataDB = pd.DataFrame(dataDB)
     # agrego la data al base de datos local
     
