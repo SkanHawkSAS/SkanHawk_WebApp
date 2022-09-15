@@ -101,7 +101,7 @@ def GetRigData(id:int):
                                 "contadorTuberia": row.contador_tuberia,
                                 "operacion": row.operacion}
             psconn.execute(opsData.insert().values(new_data))  
-    rslt_df = data[dataDB['fechaHora'][0]<data['fechaHora']]
+    rslt_df = data[dataDB['fechaHora'][0]<data['fecha_hora']]
     return rslt_df.to_json()
 
 # funcion que aplica el modelo de IA
