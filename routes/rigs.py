@@ -105,7 +105,7 @@ def GetRigData(id:int):
     rslt_df = data[dataDB['fechaHora'][0]<data['fecha_hora']]
     rslt_df = rslt_df[["fecha_hora", "deviceId", "carga_gancho", "posicion_bloque", "velocidad_bloque", "profundidad", "contador_tuberia", "operacion"]]
     rslt_df = rslt_df.to_dict()
-    jsonRs = json.dump(rslt_df)
+    jsonRs = json.dumps(rslt_df)
 
 
     return jsonRs
