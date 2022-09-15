@@ -166,7 +166,7 @@ def GetRigDataRT(id:int):
             contador_tuberia
             FROM tlc.Ecopetrol_Operational_data_SH
         WHERE deviceId = 'IndependenceRig{id}'			
-        ORDER BY fecha_hora DESC
+        ORDER BY fecha_hora DESC;
     '''
     data = pd.read_sql_query(query, sqlEngine)
 
