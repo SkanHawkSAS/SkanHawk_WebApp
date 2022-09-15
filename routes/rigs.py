@@ -128,6 +128,7 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
     
 
     dataDB['fechaHora'] = dataDB['fechaHora'].astype(str)
+    print(dataDB.head())
 
     dict_res = {}
 
