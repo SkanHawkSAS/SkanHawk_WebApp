@@ -117,35 +117,35 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
     reg = int(secs/4)
 
     dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
-    dataDB = pd.DataFrame(dataDB)
+    return dataDB
+    # dataDB = pd.DataFrame(dataDB)
 
-    dataDB['fechaHora'] = dataDB['fechaHora'].astype(str)
+    # dataDB['fechaHora'] = dataDB['fechaHora'].astype(str)
 
 
-    dict_res = {}
+    # dict_res = {}
 
-    dicts = []
+    # dicts = []
     
 
-    for row in dataDB.itertuples():
-        dict_res["fecha_hora"] = row.fechaHora
-        dict_res["deviceId"] = row.deviceId
-        dict_res["carga_gancho"] = row.cargaGancho
-        dict_res["posicion_bloque"] = row.posicionBloque
-        dict_res["velocidad_bloque"] = row.velocidadBloque
-        dict_res["profundidad"] = row.profundidad
-        dict_res["contador_tuberia"] = row.contadorTuberia
-        dict_res["operacion"] = row.operacion
-        dicts.append(dict_res)
+    # for row in dataDB.itertuples():
+    #     dict_res["fecha_hora"] = row.fechaHora
+    #     dict_res["deviceId"] = row.deviceId
+    #     dict_res["carga_gancho"] = row.cargaGancho
+    #     dict_res["posicion_bloque"] = row.posicionBloque
+    #     dict_res["velocidad_bloque"] = row.velocidadBloque
+    #     dict_res["profundidad"] = row.profundidad
+    #     dict_res["contador_tuberia"] = row.contadorTuberia
+    #     dict_res["operacion"] = row.operacion
 
-    print(dicts)
+    # print(dicts)
 
 
-    dicts_ = {}
-    for i in range(len(dicts)):
-        dicts_[f"A{i}"] = dicts[i]
+    # dicts_ = {}
+    # for i in range(len(dicts)):
+    #     dicts_[f"A{i}"] = dicts[i]
 
-    return dicts_
+    # return dicts_
 
 
 @rig.get('/rigs/{id}')
