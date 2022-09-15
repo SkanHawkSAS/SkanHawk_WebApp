@@ -64,8 +64,6 @@ def GetRigDataUpdateDB(id: int):
 
     lastRegDate = pd.to_datetime(dataDB['fechaHora'][0])
     lastRegDate = lastRegDate.strftime("%Y-%m-%d %H:%M:%S.%f")
-    print(dateNow)
-    print(lastRegDate)
 
     # Con este query obtengo los 60 registros mas recientes de la base de datos de SQL server
     query = f'''
@@ -78,7 +76,7 @@ def GetRigDataUpdateDB(id: int):
             profundidad,
             contador_tuberia
             FROM tlc.Ecopetrol_Operational_data_SH
-        WHERE deviceId = 'IndependenceRig{id}' AND fecha_hora BETWEEN {lastRegDate} AND {dateNow}	
+        WHERE deviceId = 'IndependenceRig{id}' AND fecha_hora BETWEEN '{lastRegDate}' AND '{dateNow}'	
         ORDER BY fecha_hora DESC
     '''
     data = pd.read_sql_query(query, sqlEngine)
