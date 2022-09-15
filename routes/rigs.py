@@ -120,7 +120,7 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
     dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
     dataDB = pd.DataFrame(dataDB)
 
-    dataDB['fecha_hora'] = dataDB['fecha_hora'].astype(str)
+    dataDB['fechaHora'] = dataDB['fechaHora'].astype(str)
 
     dict_res = {}
 
@@ -128,7 +128,7 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
     
 
     for row in dataDB.itertuples():
-        dict_res["fecha_hora"] = row.fecha_hora
+        dict_res["fecha_hora"] = row.fechaHora
         dict_res["deviceId"] = row.deviceId
         dict_res["carga_gancho"] = row.carga_gancho
         dict_res["posicion_bloque"] = row.posicion_bloque
@@ -164,7 +164,7 @@ def GetRigDataRT(id:int):
     data = pd.read_sql_query(query, sqlEngine)
 
     # reorganizo la data en del mas viejo al mas nuevo
-    data = data.sort_values('fechaHora').reset_index(drop=True)
+    data = data.sort_values('fecha_hora').reset_index(drop=True)
 
     data = EvaluateData(data)
 
