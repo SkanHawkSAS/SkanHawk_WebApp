@@ -127,7 +127,7 @@ def GetRigData(id:int):
 
     jsonRs = json.dumps(dicts_)
 
-    return jsonRs
+    return dicts_
 
 # funcion que aplica el modelo de IA
 def EvaluateData(data):
