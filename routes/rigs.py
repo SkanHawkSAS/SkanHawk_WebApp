@@ -146,6 +146,8 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
         dict_res["operacion"] = row.operacion
         dicts.append(dict_res)
 
+    print(dicts)
+
     dicts_ = {}
     for i in range(len(dicts)):
         dicts_[f"A{i}"] = dicts[i]
