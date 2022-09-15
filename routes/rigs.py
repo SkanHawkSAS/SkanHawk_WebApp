@@ -102,7 +102,9 @@ def GetRigData(id:int):
                                 "operacion": row.operacion}
             psconn.execute(opsData.insert().values(new_data))  
     rslt_df = data[dataDB['fechaHora'][0]<data['fecha_hora']]
-    return rslt_df.to_json()
+
+
+    return rslt_df.to_dict()
 
 # funcion que aplica el modelo de IA
 def EvaluateData(data):
