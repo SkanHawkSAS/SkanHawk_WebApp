@@ -1,4 +1,5 @@
 # Librerias de desarrollo web
+from unittest import result
 from fastapi import APIRouter, Response
 from fastapi.responses import HTMLResponse
 from config.db import conn as psconn
@@ -90,7 +91,6 @@ def GetRigData(id:int):
                                 "contadorTuberia": row.contador_tuberia,
                                 "operacion": row.operacion}
                 psconn.execute(opsData.insert().values(new_data))
-            rslt_df = data[dataDB['fechaHora'][0] < row.fecha_hora]
         else:
             new_data = {"fechaHora": row.fecha_hora,
                                 "deviceId": row.deviceId,
@@ -101,7 +101,7 @@ def GetRigData(id:int):
                                 "contadorTuberia": row.contador_tuberia,
                                 "operacion": row.operacion}
             psconn.execute(opsData.insert().values(new_data))  
-    
+    rslt_df = data[dataDB['fechaHora'][0]<data['fechaHora']]
     return rslt_df.to_json()
 
 # funcion que aplica el modelo de IA
