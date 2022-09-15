@@ -60,6 +60,7 @@ def GetRigDataUpdateDB(id: int):
     lastRegDate = dataDB['fechaHora'][0]
 
     dateNow = datetime.now() - timedelta(hours=5)
+    dateNow = dateNow.strftime("%Y-%m-%d %H:%M:%S")
 
     # Con este query obtengo los 60 registros mas recientes de la base de datos de SQL server
     query = f'''
