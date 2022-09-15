@@ -102,7 +102,11 @@ def GetRigData(id:int):
                                 "contadorTuberia": row.contador_tuberia,
                                 "operacion": row.operacion}
             psconn.execute(opsData.insert().values(new_data))  
-    rslt_df = data[dataDB['fechaHora'][0]<=data['fecha_hora']]
+    rslt_df = data[dataDB['fechaHora'][0]<data['fecha_hora']]
+
+    if rslt_df.empty:
+        rslt_df = data[dataDB['fechaHora'][0]==data['fecha_hora']]
+        
     rslt_df['fecha_hora'] = rslt_df['fecha_hora'].astype(str)
 
     dict_res = {}
