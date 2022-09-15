@@ -136,9 +136,8 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
         dict_res["profundidad"] = row.profundidad
         dict_res["contador_tuberia"] = row.contadorTuberia
         dict_res["operacion"] = row.operacion
+        print(dict_res)
         dicts.append(dict_res)
-
-    print(dicts[0, 1, 2])
 
     dicts_ = {}
     for i in range(len(dicts)):
