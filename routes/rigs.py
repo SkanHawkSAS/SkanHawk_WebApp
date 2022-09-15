@@ -116,36 +116,8 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
     secs = hoursBefore*3600
     reg = int(secs/4)
 
-    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
+    dataDB = psconn.execute(opsData.select().order_by(opsData.c.id).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
     return dataDB
-    # dataDB = pd.DataFrame(dataDB)
-
-    # dataDB['fechaHora'] = dataDB['fechaHora'].astype(str)
-
-
-    # dict_res = {}
-
-    # dicts = []
-    
-
-    # for row in dataDB.itertuples():
-    #     dict_res["fecha_hora"] = row.fechaHora
-    #     dict_res["deviceId"] = row.deviceId
-    #     dict_res["carga_gancho"] = row.cargaGancho
-    #     dict_res["posicion_bloque"] = row.posicionBloque
-    #     dict_res["velocidad_bloque"] = row.velocidadBloque
-    #     dict_res["profundidad"] = row.profundidad
-    #     dict_res["contador_tuberia"] = row.contadorTuberia
-    #     dict_res["operacion"] = row.operacion
-
-    # print(dicts)
-
-
-    # dicts_ = {}
-    # for i in range(len(dicts)):
-    #     dicts_[f"A{i}"] = dicts[i]
-
-    # return dicts_
 
 
 @rig.get('/rigs/{id}')
@@ -174,7 +146,7 @@ def GetRigDataRT(id:int):
 
      # Obtengo la ultima fila
 
-    dataDB = psconn.execute(opsData.select().order_by(opsData.c.id).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
+    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
     dataDB = pd.DataFrame(dataDB)
     # agrego la data al base de datos local
     
