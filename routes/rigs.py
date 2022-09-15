@@ -104,10 +104,28 @@ def GetRigData(id:int):
             psconn.execute(opsData.insert().values(new_data))  
     rslt_df = data[dataDB['fechaHora'][0]<data['fecha_hora']]
     rslt_df['fecha_hora'] = rslt_df['fecha_hora'].astype(str)
-    rslt_df = rslt_df[["fecha_hora", "deviceId", "carga_gancho", "posicion_bloque", "velocidad_bloque", "profundidad", "contador_tuberia", "operacion"]].to_dict()
-    print(rslt_df)
-    jsonRs = json.dumps(rslt_df)
 
+    dict_res = {}
+
+    dicts = []
+    
+
+    for row in rslt_df.itertuples():
+        dict_res["fecha_hora"] = row.fecha_hora
+        dict_res["deviceId"] = row.deviceId
+        dict_res["carga_gancho"] = row.carga_gancho
+        dict_res["posicion_bloque"] = row.posicion_bloque
+        dict_res["velocidad_bloque"] = row.velocidad_bloque
+        dict_res["profundidad"] = row.profundidad
+        dict_res["contador_tuberia"] = row.contador_tuberia
+        dict_res["operacion"] = row.operacion
+        dict_res.append(dicts)
+
+    dicts_ = {}
+    for i in range(len(dicts)):
+        dicts_[f"{i}"] = dicts[i]
+
+    jsonRs = json.dumps(dicts_)
 
     return jsonRs
 
