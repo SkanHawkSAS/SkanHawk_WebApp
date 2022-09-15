@@ -18,7 +18,7 @@ import numpy as np
 import keras
 from sklearn.preprocessing import StandardScaler
 
-rig = APIRouter(route_class=VerifyTokenRoute)
+rig = APIRouter()#route_class=VerifyTokenRoute)
 
 
 ######################################################################################################################
@@ -90,6 +90,7 @@ def GetRigData(id:int):
                                 "contadorTuberia": row.contador_tuberia,
                                 "operacion": row.operacion}
                 psconn.execute(opsData.insert().values(new_data))
+            rslt_df = dataDB['fechaHora'][0] < row.fecha_hora
         else:
             new_data = {"fechaHora": row.fecha_hora,
                                 "deviceId": row.deviceId,
@@ -99,9 +100,9 @@ def GetRigData(id:int):
                                 "profundidad": row.profundidad,
                                 "contadorTuberia": row.contador_tuberia,
                                 "operacion": row.operacion}
-            psconn.execute(opsData.insert().values(new_data))   
-
-    return data.to_json()
+            psconn.execute(opsData.insert().values(new_data))  
+    
+    return rslt_df.to_json()
 
 # funcion que aplica el modelo de IA
 def EvaluateData(data):
