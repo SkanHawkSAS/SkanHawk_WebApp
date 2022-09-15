@@ -81,6 +81,7 @@ def GetRigDataUpdateDB(id: int):
     '''
     data = pd.read_sql_query(query, sqlEngine)
 
+    print(len(data))
     # reorganizo la data en del mas viejo al mas nuevo
     data = data.sort_values('fecha_hora').reset_index(drop=True)
 
