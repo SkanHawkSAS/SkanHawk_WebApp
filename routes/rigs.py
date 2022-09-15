@@ -5,7 +5,6 @@ from fastapi.responses import HTMLResponse
 from config.db import conn as psconn
 from config.sqlServer import conn as sqlconn
 from config.sqlServer import engine as sqlEngine
-from config.db import engine as psEngine
 from models.opData import opsData
 from schemas.opData import OpData
 from models.rig import rigs
@@ -117,19 +116,13 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
     secs = hoursBefore*3600
     reg = int(secs/4)
 
-    query = f'''
-        SELECT * 
-        FROM operational_data
-        WHERE deviceId = 'IndependenceRig{id}'
-        ORDER BY fechaHora DESC LIMIT {reg};
-    '''
-
-    dataDB = pd.read_sql_query(query, psEngine)
-    
+    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
+    dataDB = pd.DataFrame(dataDB)
 
     dataDB['fechaHora'] = dataDB['fechaHora'].astype(str)
-    print(dataDB.head())
 
+    print(dataDB.head())
+    
     dict_res = {}
 
     dicts = []
@@ -145,8 +138,6 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
         dict_res["contador_tuberia"] = row.contadorTuberia
         dict_res["operacion"] = row.operacion
         dicts.append(dict_res)
-
-    print(dicts)
 
     dicts_ = {}
     for i in range(len(dicts)):
@@ -169,7 +160,7 @@ def GetRigDataRT(id:int):
             contador_tuberia
             FROM tlc.Ecopetrol_Operational_data_SH
         WHERE deviceId = 'IndependenceRig{id}'			
-        ORDER BY fecha_hora DESC;
+        ORDER BY fecha_hora DESC
     '''
     data = pd.read_sql_query(query, sqlEngine)
 
