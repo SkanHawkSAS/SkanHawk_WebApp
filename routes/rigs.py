@@ -213,22 +213,22 @@ def GetRigDataRT(id:int):
     dicts = []
     
 
-    # for row in rslt_df.itertuples():
-    #     dict_res["fecha_hora"] = row.fecha_hora
-    #     dict_res["deviceId"] = row.deviceId
-    #     dict_res["carga_gancho"] = row.carga_gancho
-    #     dict_res["posicion_bloque"] = row.posicion_bloque
-    #     dict_res["velocidad_bloque"] = row.velocidad_bloque
-    #     dict_res["profundidad"] = row.profundidad
-    #     dict_res["contador_tuberia"] = row.contador_tuberia
-    #     dict_res["operacion"] = row.operacion
-    #     dicts.append(dict_res)
+    for row in rslt_df.itertuples():
+        dict_res["fecha_hora"] = row.fecha_hora
+        dict_res["deviceId"] = row.deviceId
+        dict_res["carga_gancho"] = row.carga_gancho
+        dict_res["posicion_bloque"] = row.posicion_bloque
+        dict_res["velocidad_bloque"] = row.velocidad_bloque
+        dict_res["profundidad"] = row.profundidad
+        dict_res["contador_tuberia"] = row.contador_tuberia
+        dict_res["operacion"] = row.operacion
+        dicts.append(dict_res)
 
-    # dicts_ = {}
-    # for i in range(len(dicts)):
-    #     dicts_[f"A{i}"] = dicts[i]
+    dicts_ = {}
+    for i in range(len(dicts)):
+        dicts_[f"A{i}"] = dicts[i]
 
-    return rslt_df
+    return dicts
 
 # funcion que aplica el modelo de IA
 def EvaluateData(data):
