@@ -5,6 +5,7 @@ from fastapi.responses import HTMLResponse
 from config.db import conn as psconn
 from config.sqlServer import conn as sqlconn
 from config.sqlServer import engine as sqlEngine
+from config.sqlServer import engine as psEngine
 from models.opData import opsData
 from schemas.opData import OpData
 from models.rig import rigs
@@ -116,8 +117,15 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
     secs = hoursBefore*3600
     reg = int(secs/4)
 
-    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
-    dataDB = pd.DataFrame(dataDB)
+    query = f'''
+        SELECT * 
+        FROM operational_data
+        WHERE deviceId = 'IndependenceRig{id}'
+        ORDER BY fechaHora DESC LIMIT {reg};
+    '''
+
+    dataDB = pd.read_sql_query(query, psEngine)
+    
 
     dataDB['fechaHora'] = dataDB['fechaHora'].astype(str)
 
