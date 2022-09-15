@@ -80,17 +80,11 @@ def GetRigDataUpdateDB(id: int):
         ORDER BY fecha_hora DESC
     '''
     data = pd.read_sql_query(query, sqlEngine)
-
-    print(len(data))
     # reorganizo la data en del mas viejo al mas nuevo
     data = data.sort_values('fecha_hora').reset_index(drop=True)
 
     data = EvaluateData(data)
-
-
-     
     # agrego la data al base de datos local
-    
     for row in data.itertuples():
         # Se agregan solo los registros nuevos
         if not dataDB.empty:
@@ -122,7 +116,7 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
     secs = hoursBefore*3600
     reg = int(secs/4)
 
-    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
+    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}')).fetchall().limit(reg)
     dataDB = pd.DataFrame(dataDB)
 
     dataDB['fechaHora'] = dataDB['fechaHora'].astype(str)
