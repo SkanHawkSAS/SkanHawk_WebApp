@@ -121,8 +121,7 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
 
     dataDB['fechaHora'] = dataDB['fechaHora'].astype(str)
 
-    print(dataDB.head())
-    
+
     dict_res = {}
 
     dicts = []
@@ -138,6 +137,8 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
         dict_res["contador_tuberia"] = row.contadorTuberia
         dict_res["operacion"] = row.operacion
         dicts.append(dict_res)
+
+    print(dicts[0, 1, 2])
 
     dicts_ = {}
     for i in range(len(dicts)):
