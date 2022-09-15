@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 from config.db import conn as psconn
 from config.sqlServer import conn as sqlconn
 from config.sqlServer import engine as sqlEngine
-from config.sqlServer import engine as psEngine
+from config.db import engine as psEngine
 from models.opData import opsData
 from schemas.opData import OpData
 from models.rig import rigs
