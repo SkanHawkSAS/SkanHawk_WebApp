@@ -119,7 +119,7 @@ def GetRigData(id:int):
         dict_res["profundidad"] = row.profundidad
         dict_res["contador_tuberia"] = row.contador_tuberia
         dict_res["operacion"] = row.operacion
-        dict_res.append(dicts)
+        dicts.append(dict_res)
 
     dicts_ = {}
     for i in range(len(dicts)):
