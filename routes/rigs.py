@@ -164,7 +164,7 @@ def GetRigDataRT(id:int):
     data = pd.read_sql_query(query, sqlEngine)
 
     # reorganizo la data en del mas viejo al mas nuevo
-    data = data.sort_values('fecha_hora').reset_index(drop=True)
+    data = data.sort_values('fechaHora').reset_index(drop=True)
 
     data = EvaluateData(data)
 
