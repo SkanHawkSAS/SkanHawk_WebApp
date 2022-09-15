@@ -90,7 +90,7 @@ def GetRigData(id:int):
                                 "contadorTuberia": row.contador_tuberia,
                                 "operacion": row.operacion}
                 psconn.execute(opsData.insert().values(new_data))
-            rslt_df = dataDB[dataDB['fechaHora'][0] < row.fecha_hora]
+            rslt_df = data[dataDB['fechaHora'][0] < row.fecha_hora]
         else:
             new_data = {"fechaHora": row.fecha_hora,
                                 "deviceId": row.deviceId,
