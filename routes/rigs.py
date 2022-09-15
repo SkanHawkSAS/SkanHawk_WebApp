@@ -9,6 +9,7 @@ from models.opData import opsData
 from schemas.opData import OpData
 from models.rig import rigs
 from schemas.rig import Rig
+import json
 from sqlalchemy import desc
 from middlewares.verifyTokenRoute import VerifyTokenRoute
 
@@ -102,9 +103,12 @@ def GetRigData(id:int):
                                 "operacion": row.operacion}
             psconn.execute(opsData.insert().values(new_data))  
     rslt_df = data[dataDB['fechaHora'][0]<data['fecha_hora']]
+    rslt_df = rslt_df[["fecha_hora", "deviceId", "carga_gancho", "posicion_bloque", "velocidad_bloque", "profundidad", "contador_tuberia", "operacion"]]
+    rslt_df = rslt_df.to_dict()
+    jsonRs = json.dump(rslt_df)
 
 
-    return rslt_df.to_dict()
+    return jsonRs
 
 # funcion que aplica el modelo de IA
 def EvaluateData(data):
