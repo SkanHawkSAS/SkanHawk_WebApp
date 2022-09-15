@@ -106,7 +106,7 @@ def GetRigData(id:int):
 
     if rslt_df.empty:
         rslt_df = data[dataDB['fechaHora'][0]==data['fecha_hora']]
-        
+
     rslt_df['fecha_hora'] = rslt_df['fecha_hora'].astype(str)
 
     dict_res = {}
@@ -127,7 +127,7 @@ def GetRigData(id:int):
 
     dicts_ = {}
     for i in range(len(dicts)):
-        dicts_[f"{i}"] = dicts[i]
+        dicts_[f"A{i}"] = dicts[i]
 
     return dicts_
 
