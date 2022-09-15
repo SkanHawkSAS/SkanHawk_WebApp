@@ -130,11 +130,11 @@ def GetRigDataHist(id:int, hoursBefore: int = 24):
     for row in dataDB.itertuples():
         dict_res["fecha_hora"] = row.fechaHora
         dict_res["deviceId"] = row.deviceId
-        dict_res["carga_gancho"] = row.carga_gancho
-        dict_res["posicion_bloque"] = row.posicion_bloque
-        dict_res["velocidad_bloque"] = row.velocidad_bloque
+        dict_res["carga_gancho"] = row.cargaGancho
+        dict_res["posicion_bloque"] = row.posicionBloque
+        dict_res["velocidad_bloque"] = row.velocidadBloque
         dict_res["profundidad"] = row.profundidad
-        dict_res["contador_tuberia"] = row.contador_tuberia
+        dict_res["contador_tuberia"] = row.contadorTuberia
         dict_res["operacion"] = row.operacion
         dicts.append(dict_res)
 
