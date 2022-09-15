@@ -18,7 +18,7 @@ from middlewares.verifyTokenRoute import VerifyTokenRoute
 import pandas as pd
 import numpy as np
 import keras
-from datetime import datetime
+from datetime import datetime, timedelta
 from sklearn.preprocessing import StandardScaler
 
 rig = APIRouter()#route_class=VerifyTokenRoute)
@@ -59,7 +59,7 @@ def GetRigDataUpdateDB(id: int):
     dataDB = pd.DataFrame(dataDB)
     lastRegDate = dataDB['fechaHora'][0]
 
-    dateNow = datetime.now()
+    dateNow = datetime.now() - timedelta(hours=5)
 
     # Con este query obtengo los 60 registros mas recientes de la base de datos de SQL server
     query = f'''
