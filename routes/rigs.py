@@ -111,17 +111,17 @@ def GetRigDataUpdateDB(id: int):
     return 'UPDATED'
 
 @rig.get('/rigs/{id}/historicos')
-def GetRigDataHist(id:int, hoursBefore: int = 24):
+async def GetRigDataHist(id:int, hoursBefore: int = 24):
 
     secs = hoursBefore*3600
     reg = int(secs/4)
 
-    dataDB = psconn.execute(opsData.select().order_by(opsData.c.id).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
+    dataDB = await psconn.execute(opsData.select().order_by(opsData.c.id).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
     return dataDB
 
 
 @rig.get('/rigs/{id}')
-def GetRigDataRT(id:int):
+async def GetRigDataRT(id:int):
     # Con este query obtengo los 60 registros mas recientes de la base de datos de SQL server
     query = f'''
         SELECT TOP 60 
@@ -136,7 +136,7 @@ def GetRigDataRT(id:int):
         WHERE deviceId = 'IndependenceRig{id}'			
         ORDER BY fecha_hora DESC
     '''
-    data = pd.read_sql_query(query, sqlEngine)
+    data = await pd.read_sql_query(query, sqlEngine)
 
     # reorganizo la data en del mas viejo al mas nuevo
     data = data.sort_values('fecha_hora').reset_index(drop=True)
@@ -146,7 +146,7 @@ def GetRigDataRT(id:int):
 
      # Obtengo la ultima fila
 
-    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
+    dataDB = await psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
     dataDB = pd.DataFrame(dataDB)
     # agrego la data al base de datos local
     
@@ -196,9 +196,6 @@ def GetRigDataRT(id:int):
         dict_res["operacion"] = row.operacion
         dicts.append(dict_res)
 
-    dicts_ = {}
-    for i in range(len(dicts)):
-        dicts_[f"A{i}"] = dicts[i]
 
     return dicts
 
