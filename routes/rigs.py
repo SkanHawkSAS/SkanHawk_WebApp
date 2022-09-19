@@ -1,4 +1,5 @@
 # Librerias de desarrollo web
+import re
 from unittest import result
 from fastapi import APIRouter, Response
 from fastapi.responses import HTMLResponse
@@ -116,7 +117,7 @@ async def GetRigDataHist(id:int, hoursBefore: int = 24):
     secs = hoursBefore*3600
     reg = int(secs/4)
 
-    dataDB = await psconn.execute(opsData.select().order_by(opsData.c.id).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
+    dataDB = await getDataQuery2(id, reg)
     return dataDB
 
 
@@ -146,7 +147,7 @@ async def GetRigDataRT(id:int):
 
      # Obtengo la ultima fila
 
-    dataDB = await psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
+    dataDB = await getDataQuery1(id)
     dataDB = pd.DataFrame(dataDB)
     # agrego la data al base de datos local
     
@@ -198,6 +199,12 @@ async def GetRigDataRT(id:int):
 
 
     return dicts
+async def getDataQuery1(id):
+    return psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
+
+async def getDataQuery2(id, reg):
+    return psconn.execute(opsData.select().order_by(opsData.c.id).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
+
 
 # funcion que aplica el modelo de IA
 def EvaluateData(data):
