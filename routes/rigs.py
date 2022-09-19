@@ -136,7 +136,7 @@ async def GetRigDataRT(id:int):
         WHERE deviceId = 'IndependenceRig{id}'			
         ORDER BY fecha_hora DESC
     '''
-    data = await pd.read_sql_query(query, sqlEngine)
+    data = pd.read_sql_query(query, sqlEngine)
 
     # reorganizo la data en del mas viejo al mas nuevo
     data = data.sort_values('fecha_hora').reset_index(drop=True)
