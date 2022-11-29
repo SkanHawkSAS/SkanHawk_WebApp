@@ -1,14 +1,7 @@
 # Librerias de desarrollo web
 from fastapi import APIRouter, Response
 from fastapi.responses import HTMLResponse
-from config.db import conn as psconn
-from config.sqlServer import conn as sqlconn
-from config.sqlServer import engine as sqlEngine
-from models.opData import opsData
-from schemas.opData import OpData
-from models.rig import rigs
-from schemas.rig import Rig
-import json
+from config.analytic_db import conn as psconn
 from sqlalchemy import desc
 from middlewares.verifyTokenRoute import VerifyTokenRoute
 
