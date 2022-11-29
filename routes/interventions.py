@@ -24,4 +24,4 @@ def GetRig():
                                 ON dbo.rig.id = dbo.interventions.id_rig
                                 JOIN dbo.well
                                 on dbo.well.id = dbo.interventions.id_well
-                          ''')
+                          ''').fetchall()
