@@ -20,10 +20,10 @@ import keras
 from datetime import datetime, timedelta
 from sklearn.preprocessing import StandardScaler
 
-interventions = APIRouter(prefix='/interv')#route_class=VerifyTokenRoute)
+interventions = APIRouter(prefix='/analytic')#route_class=VerifyTokenRoute)
 
 
-@interventions.get('/rigs')
+@interventions.get('/interventions')
 def GetRig():
     return psconn.execute(''' SELECT dbo.interventions.id, dbo.rig.name_rig, dbo.well.name_well, dbo.interventions.name as intervention
                                 FROM dbo.interventions
