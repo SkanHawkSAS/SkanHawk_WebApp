@@ -1,6 +1,4 @@
 # Librerias de desarrollo web
-import re
-from unittest import result
 from fastapi import APIRouter, Response
 from fastapi.responses import HTMLResponse
 from config.db import conn as psconn

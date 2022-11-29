@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, MetaData
 
 
 server = 'siindependenceserver.database.windows.net'
-database = 'SIIPRD'
+database = 'AnaliticaSKH'
 username = 'indsii'
 password = '1nd3p3nd3nc32019*'
 driver = '{ODBC Driver 17 for SQL Server}'
