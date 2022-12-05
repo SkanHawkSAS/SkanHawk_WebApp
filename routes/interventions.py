@@ -10,7 +10,7 @@ interventions = APIRouter(prefix='/analytic')#route_class=VerifyTokenRoute)
 
 
 @interventions.get('/interventions')
-def GetInterverntios():
+def GetInterventions():
     return psconn.execute(''' SELECT dbo.interventions.id, dbo.rig.name_rig, dbo.well.name_well, dbo.interventions.name as intervention, dbo.interventions.date_start, dbo.interventions.date_reception, dbo.interventions.date_end
                                 FROM dbo.interventions
                                 JOIN dbo.rig
@@ -22,7 +22,7 @@ def GetInterverntios():
     
 @interventions.get('/wells')
 def GetWells():
-    return psconn.execute(''' SELECT dbo.well.id, dbo.well.name_well, dbo.cluster.name_cluster, dbo.client.name, dbo.field.name_field, dbo.zone.name
+    return psconn.execute(''' SELECT dbo.well.id, dbo.well.name_well, dbo.cluster.name_cluster as cluster, dbo.client.name as owner, dbo.field.name_field as field, dbo.zone.name as zone
                                 FROM dbo.well
                                 JOIN dbo.cluster
                                 ON dbo.well.id_cluster = dbo.cluster.id
