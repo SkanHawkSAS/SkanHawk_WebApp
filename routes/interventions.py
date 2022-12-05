@@ -6,22 +6,53 @@ from sqlalchemy import desc
 from middlewares.verifyTokenRoute import VerifyTokenRoute
 
 
-# Librerias matematicas
-import pandas as pd
-import numpy as np
-import keras
-from datetime import datetime, timedelta
-from sklearn.preprocessing import StandardScaler
-
 interventions = APIRouter(prefix='/analytic')#route_class=VerifyTokenRoute)
 
 
 @interventions.get('/interventions')
-def GetRig():
-    return psconn.execute(''' SELECT dbo.interventions.id, dbo.rig.name_rig, dbo.well.name_well, dbo.interventions.name as intervention
+def GetInterverntios():
+    return psconn.execute(''' SELECT dbo.interventions.id, dbo.rig.name_rig, dbo.well.name_well, dbo.interventions.name as intervention, dbo.interventions.date_start, dbo.interventions.date_reception, dbo.interventions.date_end
                                 FROM dbo.interventions
                                 JOIN dbo.rig
                                 ON dbo.rig.id = dbo.interventions.id_rig
                                 JOIN dbo.well
                                 on dbo.well.id = dbo.interventions.id_well
                           ''').fetchall()
+    
+    
+@interventions.get('/wells')
+def GetWells():
+    return psconn.execute(''' SELECT dbo.interventions.id, dbo.rig.name_rig, dbo.well.name_well, dbo.interventions.name as intervention, dbo.interventions.date_start, dbo.interventions.date_reception, dbo.interventions.date_end
+                                FROM dbo.interventions
+                                JOIN dbo.rig
+                                ON dbo.rig.id = dbo.interventions.id_rig
+                                JOIN dbo.well
+                                on dbo.well.id = dbo.interventions.id_well
+                          ''').fetchall()
+
+
+@interventions.get('/trips')
+def GetTrips():
+    return psconn.execute(''' SELECT dbo.trips.id, dbo.well.name_well as well, dbo.interventions.name as intervention, dbo.trips.date_start, dbo.trips.date_end, dbo.trips.activity, dbo.pipe_details.name as pipe, dbo.trips.[key], dbo.trips.comments
+                                FROM dbo.trips
+                                JOIN dbo.interventions
+                                ON dbo.trips.id_interventions = dbo.interventions.id
+                                JOIN dbo.pipe_details
+                                on dbo.pipe_details.id = dbo.trips.id_pipe
+                                JOIN dbo.well
+                                ON dbo.well.id = dbo.interventions.id_well
+                          ''').fetchall()
+
+
+@interventions.get('/clients')
+def GetClients():
+    return psconn.execute(''' SELECT *
+                                FROM dbo.client
+                          ''').fetchall()
+    
+@interventions.get('/clients')
+def GetPipes():
+    return psconn.execute(''' SELECT *
+                                FROM dbo.pipe_details
+                          ''').fetchall()
+    
