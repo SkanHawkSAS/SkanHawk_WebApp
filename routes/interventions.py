@@ -22,12 +22,16 @@ def GetInterverntios():
     
 @interventions.get('/wells')
 def GetWells():
-    return psconn.execute(''' SELECT dbo.interventions.id, dbo.rig.name_rig, dbo.well.name_well, dbo.interventions.name as intervention, dbo.interventions.date_start, dbo.interventions.date_reception, dbo.interventions.date_end
-                                FROM dbo.interventions
-                                JOIN dbo.rig
-                                ON dbo.rig.id = dbo.interventions.id_rig
-                                JOIN dbo.well
-                                on dbo.well.id = dbo.interventions.id_well
+    return psconn.execute(''' SELECT dbo.well.id, dbo.well.name_well, dbo.cluster.name_cluster, dbo.client.name, dbo.field.name_field, dbo.zone.name
+                                FROM dbo.well
+                                JOIN dbo.cluster
+                                ON dbo.well.id_cluster = dbo.cluster.id
+                                JOIN dbo.field
+                                ON dbo.field.id = dbo.cluster.id_field
+                                JOIN dbo.zone
+                                ON dbo.zone.id = dbo.field.id_zone
+                                JOIN dbo.client
+                                ON dbo.client.id = dbo.field.id_client
                           ''').fetchall()
 
 
