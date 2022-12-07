@@ -4,6 +4,8 @@ from fastapi.responses import HTMLResponse
 from config.analytic_db import conn as psconn
 from sqlalchemy import desc
 from middlewares.verifyTokenRoute import VerifyTokenRoute
+from schemas.intervention import Intervention
+from helpers.functions import *
 
 
 interventions = APIRouter(prefix='/analytic')#route_class=VerifyTokenRoute)
@@ -26,6 +28,23 @@ def GetInterventions():
                                 JOIN dbo.client
                                 ON dbo.field.id_client = dbo.client.id
                           ''').fetchall()
+@interventions.post('/interventions')
+def CreateIntervention(interv: Intervention):
+    new_interv = {"client": interv.client, "nameRig": interv.nameRig, "nameWell": interv.nameWell, "intervention": interv.intervention, "zone": interv.zone, "dateStart": interv.dateStart, "dateReception": interv.dateReception, "dateEnd": interv.dateEnd}
+    
+    queryTry = addInterv(new_interv['client'], new_interv['nameRig'], new_interv['intervention'], new_interv['dateStart'], new_interv['dateReception'], new_interv['dateEnd'], new_interv['nameWell'])
+    if not queryTry:
+        return "Intervention added successfully"
+    return "Error adding intervention"
+
+@interventions.put('/interventions/{id}')
+def EditIntervention(id:int, interv: Intervention):
+    
+    queryTry = updateInterv(id, interv.nameRig, interv.nameWell, interv.intervention, interv.dateStart, interv.dateReception, interv.dateEnd)
+    
+    if not queryTry:
+        return "Intervention updated successfully"
+    return "Error updating intervention"
     
     
 @interventions.get('/wells')
