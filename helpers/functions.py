@@ -85,3 +85,40 @@ def updateInterv(id_interv, torre, pozo, name, date_start, date_recep, date_end)
         conn.execute(query)
     except:
         return True
+    
+def deleteInterv(id):
+    # Borrar Trip times
+        # Obtengo los id de los viajes de esa intervencion
+        query1 = f'''  SELECT id FROM dbo.trips
+                      WHERE dbo.trips.id_interventions = {id}  '''
+        df_trips = pd.read_sql(query1, engine)
+        
+        # para cada viaje elimino los calculos correspondientes
+        for row in df_trips:
+            id_trip = row.id
+            # Calculos de tiempos
+            query2 = f''' DELETE FROM [dbo].[trips_times]
+                        WHERE id_trips = {id_trip} '''
+            conn.execute(query2)
+            
+            # Calculos de pruebas de presion
+            query3 = f''' DELETE FROM [dbo].[pressure_test]
+                        WHERE id_trips = {id_trip} '''
+            conn.execute(query3)
+            
+            # Elimino el viaje
+            query4 = f''' DELETE FROM [dbo].[trips]
+                    WHERE id = {id_trip} '''
+            conn.execute(query4)    
+    
+    # Borrar Intervention
+        query5 = f''' DELETE FROM [dbo].[dbo].[interventions]
+                    WHERE id = {id} '''
+        
+        
+        try:
+            conn.execute(query5) 
+        except:
+            return True
+    
+    
