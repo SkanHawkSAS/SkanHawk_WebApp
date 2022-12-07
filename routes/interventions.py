@@ -23,6 +23,8 @@ def GetInterventions():
                                 ON dbo.cluster.id_field = dbo.field.id
                                 JOIN dbo.zone
                                 ON dbo.zone.id = dbo.field.id_zone
+                                JOIN dbo.client
+                                ON dbo.field.id_client = dbo.client.id
                           ''').fetchall()
     
     
