@@ -95,12 +95,12 @@ def deleteInterv(id):
             id_trip = row
             # Calculos de tiempos
             query2 = f''' DELETE FROM [dbo].[trips_times]
-                        WHERE id_trips = {id_trip} '''
+                        WHERE id_trip = {id_trip} '''
             conn.execute(query2)
             
             # Calculos de pruebas de presion
             query3 = f''' DELETE FROM [dbo].[pressure_test]
-                        WHERE id_trips = {id_trip} '''
+                        WHERE id_trip = {id_trip} '''
             conn.execute(query3)
             
             # Elimino el viaje
