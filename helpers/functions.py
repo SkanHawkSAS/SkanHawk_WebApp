@@ -92,23 +92,24 @@ def deleteInterv(id):
         print(df_trips)
         
         # para cada viaje elimino los calculos correspondientes
-        for row in df_trips:
-            id_trip = row
-            print(id_trip)
-            # Calculos de tiempos
-            query2 = f''' DELETE FROM [dbo].[trips_times]
-                        WHERE id_trips = {id_trip} '''
-            conn.execute(query2)
-            
-            # Calculos de pruebas de presion
-            query3 = f''' DELETE FROM [dbo].[pressure_test]
-                        WHERE id_trips = {id_trip} '''
-            conn.execute(query3)
-            
-            # Elimino el viaje
-            query4 = f''' DELETE FROM [dbo].[trips]
-                    WHERE id = {id_trip} '''
-            conn.execute(query4)    
+        if not df_trips.empty:
+            for row in df_trips:
+                id_trip = row
+                print(id_trip)
+                # Calculos de tiempos
+                query2 = f''' DELETE FROM [dbo].[trips_times]
+                            WHERE id_trips = {id_trip} '''
+                conn.execute(query2)
+                
+                # Calculos de pruebas de presion
+                query3 = f''' DELETE FROM [dbo].[pressure_test]
+                            WHERE id_trips = {id_trip} '''
+                conn.execute(query3)
+                
+                # Elimino el viaje
+                query4 = f''' DELETE FROM [dbo].[trips]
+                        WHERE id = {id_trip} '''
+                conn.execute(query4)    
     
     # Borrar Intervention
         query5 = f''' DELETE FROM [dbo].[dbo].[interventions]
