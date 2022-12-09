@@ -92,7 +92,7 @@ def deleteInterv(id):
         
         # para cada viaje elimino los calculos correspondientes
         for row in df_trips:
-            id_trip = row.id
+            id_trip = row[-1]
             # Calculos de tiempos
             query2 = f''' DELETE FROM [dbo].[trips_times]
                         WHERE id_trips = {id_trip} '''
