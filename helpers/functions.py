@@ -89,6 +89,7 @@ def deleteInterv(id):
         query1 = f'''  SELECT id FROM dbo.trips
                       WHERE dbo.trips.id_interventions = {id}  '''
         df_trips = pd.read_sql(query1, engine)
+        print(df_trips)
         
         # para cada viaje elimino los calculos correspondientes
         for row in df_trips:
