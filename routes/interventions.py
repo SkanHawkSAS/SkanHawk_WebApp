@@ -32,10 +32,9 @@ def GetInterventions():
 def CreateIntervention(interv: Intervention):
     new_interv = {"client": interv.client, "nameRig": interv.nameRig, "nameWell": interv.nameWell, "intervention": interv.intervention, "zone": interv.zone, "dateStart": interv.dateStart, "dateReception": interv.dateReception, "dateEnd": interv.dateEnd}
     
-    queryTry = addInterv(new_interv['client'], new_interv['nameRig'], new_interv['intervention'], new_interv['dateStart'], new_interv['dateReception'], new_interv['dateEnd'], new_interv['nameWell'])
-    if not queryTry:
-        return "Intervention added successfully"
-    return "Error adding intervention"
+    addInterv(new_interv['client'], new_interv['nameRig'], new_interv['intervention'], new_interv['dateStart'], new_interv['dateReception'], new_interv['dateEnd'], new_interv['nameWell'])
+
+    return "Intervention added successfully"
 
 @interventions.put('/interventions/{id}')
 def EditIntervention(id:int, interv: Intervention):
