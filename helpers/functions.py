@@ -48,6 +48,7 @@ def addInterv(cliente, torre, intervention, fecha_inicio, fecha_recepcion, fecha
                                     VALUES ('{id_torre}','{id_pozo}', '{fecha_recepcion}', '{fecha_inicio}', '{fecha_fin}', '{intervencion}') '''
     try:
         conn.execute(query_insert_interv)
+        return False;
     except:
         return True
     
