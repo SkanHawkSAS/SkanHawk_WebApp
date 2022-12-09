@@ -46,11 +46,7 @@ def addInterv(cliente, torre, intervention, fecha_inicio, fecha_recepcion, fecha
     # Agrego la información de la intervencion
     query_insert_interv = f''' INSERT INTO [dbo].[interventions] (id_rig, id_well, date_reception, date_start, date_end, name)
                                     VALUES ({id_torre},{id_pozo}, '{fecha_recepcion}', '{fecha_inicio}', '{fecha_fin}', '{intervencion}') '''
-    try:
-        conn.execute(query_insert_interv)
-        return False;
-    except:
-        return True
+    conn.execute(query_insert_interv)
     
     
     
