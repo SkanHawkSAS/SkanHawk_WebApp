@@ -112,7 +112,7 @@ def deleteInterv(id):
                 conn.execute(query4)    
     
     # Borrar Intervention
-        query5 = f''' DELETE FROM [dbo].[dbo].[interventions]
+        query5 = f''' DELETE FROM [dbo].[interventions]
                     WHERE id = {id} '''
         
         
