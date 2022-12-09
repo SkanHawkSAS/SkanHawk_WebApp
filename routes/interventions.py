@@ -48,11 +48,8 @@ def EditIntervention(id:int, interv: Intervention):
 @interventions.delete('/interventions/{id}')
 def DeleteIntervention(id:int):
     
-    queryTry = deleteInterv(id)
-    
-    if not queryTry:
-        return "Intervention deleted successfully"
-    return "Error deleting intervention"
+    return deleteInterv(id)
+
     
     
 @interventions.get('/wells')

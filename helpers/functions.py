@@ -113,9 +113,7 @@ def deleteInterv(id):
                     WHERE id = {id} '''
         
         
-        try:
-            conn.execute(query5) 
-        except:
-            return True
+        
+        return conn.execute(query5) 
     
     
