@@ -11,26 +11,32 @@ from helpers.trips import *
 trips = APIRouter(prefix='/analytic')#route_class=VerifyTokenRoute)
 
 
-@trips.get('/trips')
-def GetTrips():
-    return psconn.execute(''' SELECT TOP(100) dbo.trips.id, dbo.client.name as client, dbo.rig.name_rig as rig, dbo.well.name_well as well, dbo.interventions.name as intervention, dbo.zone.name as zone,dbo.trips.date_start, dbo.trips.date_end, dbo.trips.activity, dbo.pipe_details.name as pipe, dbo.trips.[key], dbo.trips.comments
-                                FROM dbo.trips
-                                JOIN dbo.interventions
-                                ON dbo.trips.id_interventions = dbo.interventions.id
-                                JOIN dbo.rig
-                                ON dbo.rig.id = dbo.interventions.id_rig
-                                JOIN dbo.pipe_details
-                                on dbo.pipe_details.id = dbo.trips.id_pipe
-                                JOIN dbo.well
-                                ON dbo.well.id = dbo.interventions.id_well
-                                JOIN dbo.cluster
-                                ON dbo.cluster.id = dbo.well.id_cluster
-                                JOIN dbo.field
-                                ON dbo.cluster.id_field = dbo.cluster.id
-                                JOIN dbo.zone
-                                ON dbo.zone.id = dbo.field.id_zone
-                                JOIN dbo.client
-                                ON dbo.client.id = dbo.field.id_client
+@trips.get('/trips/{page}')
+def GetTrips(page: int):
+    return psconn.execute(f'''SELECT id, client,rig,  well, 
+                            intervention, zone, 
+                            date_start, date_end, activity, pipe, [key] , comments
+                            FROM (SELECT ROW_NUMBER() OVER (ORDER BY dbo.trips.id) as row ,dbo.trips.id, dbo.client.name as client, dbo.rig.name_rig as rig, dbo.well.name_well as well, 
+                            dbo.interventions.name as intervention, dbo.zone.name as zone, 
+                            dbo.trips.date_start, dbo.trips.date_end, dbo.trips.activity, dbo.pipe_details.name as pipe, dbo.trips.[key] , dbo.trips.comments
+                            FROM dbo.trips
+                            JOIN dbo.interventions
+                            ON dbo.trips.id_interventions = dbo.interventions.id
+                            JOIN dbo.rig
+                            ON dbo.interventions.id_rig = dbo.rig.id
+                            JOIN dbo.pipe_details
+                            ON dbo.pipe_details.id = dbo.trips.id_pipe
+                            JOIN dbo.well
+                            ON dbo.interventions.id_well = dbo.well.id
+                            JOIN dbo.cluster
+                            ON dbo.cluster.id = dbo.well.id_cluster
+                            JOIN dbo.field
+                            ON dbo.field.id = dbo.cluster.id_field
+                            JOIN dbo.zone
+                            ON dbo.zone.id = dbo.field.id_zone
+                            JOIN dbo.client
+                            ON dbo.client.id = dbo.field.id_client) as roweredTable
+                            WHERE roweredTable.row BETWEEN {(page-1)*100} AND {(page+1)*100}
                           ''').fetchall()
     
 @trips.post('/trips')
