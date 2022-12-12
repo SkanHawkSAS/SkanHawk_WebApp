@@ -46,10 +46,8 @@ def addInterv(cliente, torre, intervention, fecha_inicio, fecha_recepcion, fecha
     # Agrego la información de la intervencion
     query_insert_interv = f''' INSERT INTO [dbo].[interventions] (id_rig, id_well, date_reception, date_start, date_end, name)
                                     VALUES ({id_torre},{id_pozo}, '{fecha_recepcion}', '{fecha_inicio}', '{fecha_fin}', '{intervencion}') '''
-    conn.execute(query_insert_interv)
-    
-    
-    
+    conn.execute(query_insert_interv) 
+      
 def updateInterv(id_interv, torre, pozo, name, date_start, date_recep, date_end):
     # Obtengo el id de la torre
     query_torre = f''' SELECT id FROM [dbo].[rig] WHERE name_rig = '{torre}' '''
@@ -78,10 +76,8 @@ def updateInterv(id_interv, torre, pozo, name, date_start, date_recep, date_end)
                 SET id_rig = '{id_torre}', id_well = '{id_pozo}', name = '{name}', date_start = '{date_start}', date_reception = '{date_recep}', date_end = '{date_end}'
                 WHERE id = {id_interv}  '''
                 
-    try:
-        conn.execute(query)
-    except:
-        return True
+
+    conn.execute(query)
     
 def deleteInterv(id):
     # Borrar Trip times
@@ -117,6 +113,6 @@ def deleteInterv(id):
         
         
         
-        return conn.execute(query5) 
+        conn.execute(query5) 
     
     

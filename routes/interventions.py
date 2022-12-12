@@ -5,7 +5,7 @@ from config.analytic_db import conn as psconn
 from sqlalchemy import desc
 from middlewares.verifyTokenRoute import VerifyTokenRoute
 from schemas.intervention import Intervention
-from helpers.functions import *
+from helpers.interventions import *
 
 
 interventions = APIRouter(prefix='/analytic')#route_class=VerifyTokenRoute)
@@ -39,58 +39,17 @@ def CreateIntervention(interv: Intervention):
 @interventions.put('/interventions/{id}')
 def EditIntervention(id:int, interv: Intervention):
     
-    queryTry = updateInterv(id, interv.nameRig, interv.nameWell, interv.intervention, interv.dateStart, interv.dateReception, interv.dateEnd)
+    updateInterv(id, interv.nameRig, interv.nameWell, interv.intervention, interv.dateStart, interv.dateReception, interv.dateEnd)
     
-    if not queryTry:
-        return "Intervention updated successfully"
-    return "Error updating intervention"
+
+    return "Intervention updated successfully"
 
 @interventions.delete('/interventions/{id}')
 def DeleteIntervention(id:int):
     
-    return deleteInterv(id)
+    deleteInterv(id)
+    return "Intervention deleted successfully"
 
-    
-    
-@interventions.get('/wells')
-def GetWells():
-    return psconn.execute(''' SELECT dbo.well.id, dbo.well.name_well, dbo.cluster.name_cluster as cluster, dbo.client.name as owner, dbo.field.name_field as field, dbo.zone.name as zone
-                                FROM dbo.well
-                                JOIN dbo.cluster
-                                ON dbo.well.id_cluster = dbo.cluster.id
-                                JOIN dbo.field
-                                ON dbo.field.id = dbo.cluster.id_field
-                                JOIN dbo.zone
-                                ON dbo.zone.id = dbo.field.id_zone
-                                JOIN dbo.client
-                                ON dbo.client.id = dbo.field.id_client
-                          ''').fetchall()
-
-
-@interventions.get('/trips')
-def GetTrips():
-    return psconn.execute(''' SELECT dbo.trips.id, dbo.well.name_well as well, dbo.interventions.name as intervention, dbo.trips.date_start, dbo.trips.date_end, dbo.trips.activity, dbo.pipe_details.name as pipe, dbo.trips.[key], dbo.trips.comments
-                                FROM dbo.trips
-                                JOIN dbo.interventions
-                                ON dbo.trips.id_interventions = dbo.interventions.id
-                                JOIN dbo.pipe_details
-                                on dbo.pipe_details.id = dbo.trips.id_pipe
-                                JOIN dbo.well
-                                ON dbo.well.id = dbo.interventions.id_well
-                          ''').fetchall()
-
-
-@interventions.get('/clients')
-def GetClients():
-    return psconn.execute(''' SELECT *
-                                FROM dbo.client
-                          ''').fetchall()
-    
-@interventions.get('/pipes')
-def GetPipes():
-    return psconn.execute(''' SELECT *
-                                FROM dbo.pipe_details
-                          ''').fetchall()
     
 
     
