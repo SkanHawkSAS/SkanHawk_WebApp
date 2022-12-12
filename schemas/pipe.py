@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-class Rig(BaseModel):
+class Pipe(BaseModel):
     id: Optional[str]
     name: str
     tqMin: float
