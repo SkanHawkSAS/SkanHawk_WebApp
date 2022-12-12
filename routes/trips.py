@@ -13,7 +13,7 @@ trips = APIRouter(prefix='/analytic')#route_class=VerifyTokenRoute)
 
 @trips.get('/trips')
 def GetTrips():
-    return psconn.execute(''' SELECT dbo.trips.id, dbo.client.name as client, dbo.rig.name_rig as rig, dbo.well.name_well as well, dbo.interventions.name as intervention, dbo.zone.name as zone,dbo.trips.date_start, dbo.trips.date_end, dbo.trips.activity, dbo.pipe_details.name as pipe, dbo.trips.[key], dbo.trips.comments
+    return psconn.execute(''' SELECT TOP(100) dbo.trips.id, dbo.client.name as client, dbo.rig.name_rig as rig, dbo.well.name_well as well, dbo.interventions.name as intervention, dbo.zone.name as zone,dbo.trips.date_start, dbo.trips.date_end, dbo.trips.activity, dbo.pipe_details.name as pipe, dbo.trips.[key], dbo.trips.comments
                                 FROM dbo.trips
                                 JOIN dbo.interventions
                                 ON dbo.trips.id_interventions = dbo.interventions.id
