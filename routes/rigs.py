@@ -112,6 +112,7 @@ def GetRigDataUpdateDB(id: int):
 @rig.get('/rigs/{id}/historicos/')
 async def GetRigDataHist(id:int, hoursBefore: int = 24, dateStart: str = 0, dateEnd: str = 0, cliente: str = 'ECOPETROL'):
     print(dateStart)
+    print(dateEnd)
     
     if dateStart != 0:
 
