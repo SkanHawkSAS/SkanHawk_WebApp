@@ -158,6 +158,7 @@ def updateTrip(id_trip, well, activity, intervention, pipe, key, dateStart, date
     df_well = pd.read_sql(query_well, engine)
     
     id_well = df_well.iloc[0,0]
+    print(id_well)
     
     # Obtengo el id de la intervencion
     query_intervention = f''' SELECT id FROM [dbo].[interventions] WHERE name = '{intervention}' AND id_well = '{id_well}'  '''
@@ -165,6 +166,7 @@ def updateTrip(id_trip, well, activity, intervention, pipe, key, dateStart, date
     df_intervention = pd.read_sql(query_intervention, engine)
     
     id_intervention = df_intervention.iloc[0,0]
+    print(id_intervention)
     
     # Obtengo el id de la tuberia
     query_pipe = f''' SELECT id FROM [dbo].[pipe_details] WHERE name = '{pipe}' '''
@@ -172,6 +174,7 @@ def updateTrip(id_trip, well, activity, intervention, pipe, key, dateStart, date
     df_pipe = pd.read_sql(query_pipe, engine)
 
     id_pipe = df_pipe.iloc[0,0]
+    print(id_pipe)
     
     query = f''' UPDATE [dbo].[trips]
                 SET id_interventions = '{id_intervention}', id_pipe = '{id_pipe}', 
