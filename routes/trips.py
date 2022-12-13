@@ -12,8 +12,8 @@ trips = APIRouter(prefix='/analytic')#route_class=VerifyTokenRoute)
 
 
 @trips.get('/trips/{page}')
-def GetTrips(page: int):
-    return psconn.execute(f'''SELECT id, client,rig,  well, 
+async def GetTrips(page: int):
+    return await psconn.execute(f'''SELECT id, client,rig,  well, 
                             intervention, zone, 
                             date_start, date_end, activity, pipe, [key] , comments
                             FROM (SELECT ROW_NUMBER() OVER (ORDER BY dbo.trips.id) as row ,dbo.trips.id, dbo.client.name as client, dbo.rig.name_rig as rig, dbo.well.name_well as well, 
@@ -40,27 +40,27 @@ def GetTrips(page: int):
                           ''').fetchall()
     
 @trips.post('/trips')
-def CreateTrip(trip: Trip):
+async def CreateTrip(trip: Trip):
     
-    addTrip(trip.nameRig, trip.client, trip.nameWell, trip.activity,
+    await addTrip(trip.nameRig, trip.client, trip.nameWell, trip.activity,
             trip.intervention, trip.pipe, trip.key, trip.dateStart, 
             trip.dateEnd, trip.comments)
 
     return "Trip added successfully"
 
 @trips.put('/trips/{id}')
-def EditIntervention(id:int, trip: Trip):
+async def EditIntervention(id:int, trip: Trip):
     print(trip)
     
-    updateTrip(id, trip.activity, trip.nameWell, trip.intervention, trip.pipe, 
+    await updateTrip(id, trip.activity, trip.nameWell, trip.intervention, trip.pipe, 
                trip.key, trip.dateStart, trip.dateEnd, trip.comments)
     
     return "Trip updated successfully"
 
 @trips.delete('/trips/{id}')
-def DeleteIntervention(id:int):
+async def DeleteIntervention(id:int):
     
-    deleteTrip(id)
+    await deleteTrip(id)
     
     return "Trip deleted Successfully"
 

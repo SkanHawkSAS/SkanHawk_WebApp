@@ -3,7 +3,7 @@ from config.analytic_db import engine
 import pandas as pd
 from helpers.times_calculation import *
 
-def addTrip(rig, client, well, activity, intervention, pipe, key, dateStart, dateEnd, comments):
+async def addTrip(rig, client, well, activity, intervention, pipe, key, dateStart, dateEnd, comments):
     torre = rig
     cliente = client
     pozo = well
@@ -21,14 +21,14 @@ def addTrip(rig, client, well, activity, intervention, pipe, key, dateStart, dat
                         INNER JOIN dbo.well ON dbo.interventions.id_well = dbo.well.id 
                         WHERE name_well = '{pozo}' AND dbo.interventions.name = '{interv}'  '''
     
-    df_interv = pd.read_sql(query_interv, engine)
+    df_interv = await pd.read_sql(query_interv, engine)
     
     id_interv = df_interv.iloc[0,0]
     
     # Obtengo id del pozo
     query_pipe = f''' SELECT id FROM [dbo].[pipe_details] WHERE name = '{tipo_tuberia}' '''
     
-    df_pipe = pd.read_sql(query_pipe, engine)
+    df_pipe = await pd.read_sql(query_pipe, engine)
     
     id_pipe = df_pipe.iloc[0,0]
     
@@ -41,7 +41,7 @@ def addTrip(rig, client, well, activity, intervention, pipe, key, dateStart, dat
     query_trip = f'''
         SELECT id FROM [dbo].[trips] WHERE id_interventions = '{id_interv}' and activity = '{actividad}'
     '''
-    df_trip = pd.read_sql(query_trip, engine)
+    df_trip = await pd.read_sql(query_trip, engine)
     id_trip = df_trip.iloc[0,0]
     
     if cliente == 'ECOPETROL':
@@ -64,7 +64,7 @@ def addTrip(rig, client, well, activity, intervention, pipe, key, dateStart, dat
             WHERE (fecha_hora BETWEEN '{fecha_inicio}' AND '{fecha_fin}') AND deviceID ='{torre}' '''
 
     # Se crea un DataFrame con los datos de la consulta SQL.
-    df = pd.read_sql(query, engine_op)
+    df = await pd.read_sql(query, engine_op)
 
     # Se eliminan los datos duplicados.
     df = df.drop_duplicates().reset_index(drop=True)
@@ -150,14 +150,14 @@ def addTrip(rig, client, well, activity, intervention, pipe, key, dateStart, dat
         print('No se encontraron pruebas de presión') 
         print() 
         
-def updateTrip(id_trip, activity, well, intervention, pipe, key, dateStart, dateEnd, comments):
+async def updateTrip(id_trip, activity, well, intervention, pipe, key, dateStart, dateEnd, comments):
     
 
     
     # Obtengo el id del pozo
     query_well = f''' SELECT id FROM [dbo].[well] WHERE name_well = '{well}' '''
     
-    df_well = pd.read_sql(query_well, engine)
+    df_well = await pd.read_sql(query_well, engine)
     
 
     id_well = df_well.iloc[0,0]
@@ -165,7 +165,7 @@ def updateTrip(id_trip, activity, well, intervention, pipe, key, dateStart, date
     # Obtengo el id de la intervencion
     query_intervention = f''' SELECT id FROM [dbo].[interventions] WHERE name = '{intervention}' AND id_well = '{id_well}'  '''
     
-    df_intervention = pd.read_sql(query_intervention, engine)
+    df_intervention = await pd.read_sql(query_intervention, engine)
     
     id_intervention = df_intervention.iloc[0,0]
 
@@ -173,7 +173,7 @@ def updateTrip(id_trip, activity, well, intervention, pipe, key, dateStart, date
     # Obtengo el id de la tuberia
     query_pipe = f''' SELECT id FROM [dbo].[pipe_details] WHERE name = '{pipe}' '''
     
-    df_pipe = pd.read_sql(query_pipe, engine)
+    df_pipe = await pd.read_sql(query_pipe, engine)
 
     id_pipe = df_pipe.iloc[0,0]
     print(id_pipe)
@@ -185,9 +185,9 @@ def updateTrip(id_trip, activity, well, intervention, pipe, key, dateStart, date
                 WHERE id = {id_trip}  '''
                 
 
-    conn.execute(query)
+    await conn.execute(query)
     
-def deleteTrip(id):
+async def deleteTrip(id):
     # Borrar Trip times
     id_trip = id
     print(id_trip)
@@ -199,12 +199,12 @@ def deleteTrip(id):
     # Calculos de pruebas de presion
     query2 = f''' DELETE FROM [dbo].[pressure_test]
                 WHERE id_trips = {id_trip} '''
-    conn.execute(query2)
+    await conn.execute(query2)
     
     # Elimino el viaje
     query3 = f''' DELETE FROM [dbo].[trips]
             WHERE id = {id_trip} '''
-    conn.execute(query3)    
+    await conn.execute(query3)    
         
         
-    conn.execute(query3) 
+    await conn.execute(query3) 
