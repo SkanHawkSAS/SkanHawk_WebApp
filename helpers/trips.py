@@ -157,8 +157,8 @@ def updateTrip(id_trip, well, activity, intervention, pipe, key, dateStart, date
     
     df_well = pd.read_sql(query_well, engine)
     
+    print(df_well)
     id_well = df_well.iloc[0,0]
-    print(id_well)
     
     # Obtengo el id de la intervencion
     query_intervention = f''' SELECT id FROM [dbo].[interventions] WHERE name = '{intervention}' AND id_well = '{id_well}'  '''
