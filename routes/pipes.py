@@ -18,22 +18,22 @@ def GetPipes():
                           ''').fetchall()
     
 @pipes.post('/pipes')
-async def CreatePipe(pipe: Pipe):
+def CreatePipe(pipe: Pipe):
     
-    await addPipe(pipe.name, pipe.tqMin, pipe.tqOptimum, pipe.tqMax)
+    addPipe(pipe.name, pipe.tqMin, pipe.tqOptimum, pipe.tqMax)
 
     return "Pipe added successfully"
 
 @pipes.put('/pipes/{id}')
-async def EditPipe(id:int, pipe: Pipe):
+def EditPipe(id:int, pipe: Pipe):
     
-    await updatePipe(id, pipe.name, pipe.tqMin, pipe.tqOptimum, pipe.tqMax)
+    updatePipe(id, pipe.name, pipe.tqMin, pipe.tqOptimum, pipe.tqMax)
     
     return "Pipe updated successfully"
 
 @pipes.delete('/pipes/{id}')
-async def DeletePipe(id:int):
+def DeletePipe(id:int):
     
-    await deletePipe(id)
+    deletePipe(id)
     
     return "Pipe deleted Successfully"
