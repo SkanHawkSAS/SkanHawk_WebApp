@@ -83,6 +83,8 @@ def addTrip(rig, client, well, activity, intervention, pipe, key, dateStart, dat
     df.columns = columns
     df["Posición Bloque [ft]"] = df['Posición Bloque [ft]'].abs()
     
+    print(df.head(1))
+    
     data_moments = deteccion_momentos_bloque(df, actividad, tipo_tuberia)
     data_times = tiempos_tuberia(data_moments, actividad)
     
