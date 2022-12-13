@@ -152,6 +152,8 @@ def addTrip(rig, client, well, activity, intervention, pipe, key, dateStart, dat
         
 def updateTrip(id_trip, well, activity, intervention, pipe, key, dateStart, dateEnd, comments):
     
+    print(well)
+    
     # Obtengo el id del pozo
     query_well = f''' SELECT id FROM [dbo].[well] WHERE name_well = '{well}' '''
     
