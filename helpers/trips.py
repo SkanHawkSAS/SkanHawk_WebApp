@@ -150,16 +150,16 @@ def addTrip(rig, client, well, activity, intervention, pipe, key, dateStart, dat
         print('No se encontraron pruebas de presión') 
         print() 
         
-def updateTrip(id_trip, well, activity, intervention, pipe, key, dateStart, dateEnd, comments):
+def updateTrip(id_trip, activity, well, intervention, pipe, key, dateStart, dateEnd, comments):
     
-    print(well)
+
     
     # Obtengo el id del pozo
     query_well = f''' SELECT id FROM [dbo].[well] WHERE name_well = '{well}' '''
     
     df_well = pd.read_sql(query_well, engine)
     
-    print(df_well)
+
     id_well = df_well.iloc[0,0]
     
     # Obtengo el id de la intervencion
@@ -168,7 +168,7 @@ def updateTrip(id_trip, well, activity, intervention, pipe, key, dateStart, date
     df_intervention = pd.read_sql(query_intervention, engine)
     
     id_intervention = df_intervention.iloc[0,0]
-    print(id_intervention)
+
     
     # Obtengo el id de la tuberia
     query_pipe = f''' SELECT id FROM [dbo].[pipe_details] WHERE name = '{pipe}' '''
