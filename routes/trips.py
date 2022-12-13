@@ -36,7 +36,7 @@ def GetTrips(page: int):
                             ON dbo.zone.id = dbo.field.id_zone
                             JOIN dbo.client
                             ON dbo.client.id = dbo.field.id_client) as roweredTable
-                            WHERE roweredTable.row BETWEEN {(page-1)*100} AND {(page+1)*100}
+                            WHERE roweredTable.row BETWEEN {(page-1)*100} AND {(page)*100}
                           ''').fetchall()
     
 @trips.post('/trips')
@@ -51,7 +51,7 @@ def CreateTrip(trip: Trip):
 @trips.put('/trips/{id}')
 def EditIntervention(id:int, trip: Trip):
     
-    updateTrip(id, trip.activity, trip.intervention, trip.pipe, 
+    updateTrip(id, trip.activity, trip.nameWell, trip.intervention, trip.pipe, 
                trip.key, trip.dateStart, trip.dateEnd, trip.comments)
     
     return "Trip updated successfully"
