@@ -63,6 +63,8 @@ def GetTrips(page: int):
 @trips.post('/trips')
 def CreateTrip(trip: Trip):
     
+    print(trip)
+    
     addTrip(trip.nameRig, trip.client, trip.nameWell, trip.activity,
             trip.intervention, trip.pipe, trip.key, trip.dateStart, 
             trip.dateEnd, trip.comments)
