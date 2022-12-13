@@ -111,6 +111,7 @@ def GetRigDataUpdateDB(id: int):
 
 @rig.get('/rigs/{id}/historicos/')
 async def GetRigDataHist(id:int, hoursBefore: int = 24, dateStart: str = 0, dateEnd: str = 0, cliente: str = 'ECOPETROL'):
+    print(dateStart)
     
     if dateStart != 0:
 
@@ -126,7 +127,7 @@ async def GetRigDataHist(id:int, hoursBefore: int = 24, dateStart: str = 0, date
             from config.db_ecop import conn as dataconn
             
             # Consulta SQL para solicitar los datos operacionales
-            query = f'''SELECT
+            query = f'''SELECT.
             fecha_hora, deviceId, posicion_bloque, velocidad_bloque, carga_gancho, profundidad, torque_hidraulica_max, torque_potencia_max
             FROM [tlc].[Ecopetrol_Operational_data_SH]
                 WHERE (fecha_hora BETWEEN '{dateStart}' AND '{dateEnd}') AND deviceID ='IndependenceRig{id}' '''
