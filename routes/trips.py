@@ -50,6 +50,7 @@ def CreateTrip(trip: Trip):
 
 @trips.put('/trips/{id}')
 def EditIntervention(id:int, trip: Trip):
+    print(trip)
     
     updateTrip(id, trip.activity, trip.nameWell, trip.intervention, trip.pipe, 
                trip.key, trip.dateStart, trip.dateEnd, trip.comments)
