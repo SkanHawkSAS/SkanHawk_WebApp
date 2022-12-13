@@ -109,14 +109,39 @@ def GetRigDataUpdateDB(id: int):
             psconn.execute(opsData.insert().values(new_data))  
     return 'UPDATED'
 
-@rig.get('/rigs/{id}/historicos')
-async def GetRigDataHist(id:int, hoursBefore: int = 24):
+@rig.get('/rigs/{id}/historicos/')
+async def GetRigDataHist(id:int, hoursBefore: int = 24, dateStart: str = 0, dateEnd: str = 0, cliente: str = 'ECOPETROL'):
+    
+    if dateStart != 0:
 
-    secs = hoursBefore*3600
-    reg = int(secs/4)
+        secs = hoursBefore*3600
+        reg = int(secs/4)
 
-    dataDB = await getDataQuery2(id, reg)
-    return dataDB
+        dataDB = await getDataQuery2(id, reg)
+        return dataDB
+    else:
+        if cliente == 'ECOPETROL':
+        
+            from config.db_ecop import engine as engine_op
+            from config.db_ecop import conn as dataconn
+            
+            # Consulta SQL para solicitar los datos operacionales
+            query = f'''SELECT
+            fecha_hora, deviceId, posicion_bloque, velocidad_bloque, carga_gancho, profundidad, torque_hidraulica_max, torque_potencia_max
+            FROM [tlc].[Ecopetrol_Operational_data_SH]
+                WHERE (fecha_hora BETWEEN '{dateStart}' AND '{dateEnd}') AND deviceID ='IndependenceRig{id}' '''
+    
+        else:
+            
+            from config.db_oxy import engine as engine_op
+            from config.db_oxy import conn as dataconn
+            # Consulta SQL para solicitar los datos operacionales
+            query = f'''SELECT
+            fecha_hora, deviceId, posicion_bloque, velocidad_bloque, carga_gancho, profundidad, torque_hidraulica_max, torque_potencia_max
+            FROM Oxy.Oxy_Operational_data
+                WHERE (fecha_hora BETWEEN '{dateStart}' AND '{dateEnd}') AND deviceID ='IndependenceRig{id}' '''
+            
+            return dataconn.execute(query).fetchall()
 
 
 @rig.get('/rigs/{id}')
@@ -197,6 +222,8 @@ async def GetRigDataRT(id:int):
 
 
     return dicts
+
+
 async def getDataQuery1(id):
     return psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
 
