@@ -12,8 +12,8 @@ interventions = APIRouter(prefix='/analytic')#route_class=VerifyTokenRoute)
 
 
 @interventions.get('/interventions')
-async def GetInterventions():
-    return await psconn.execute(''' SELECT dbo.interventions.id, dbo.client.name as client, dbo.rig.name_rig, dbo.well.name_well, dbo.interventions.name as intervention, dbo.zone.name as zone, dbo.interventions.date_start, dbo.interventions.date_reception, dbo.interventions.date_end
+def GetInterventions():
+    return psconn.execute(''' SELECT dbo.interventions.id, dbo.client.name as client, dbo.rig.name_rig, dbo.well.name_well, dbo.interventions.name as intervention, dbo.zone.name as zone, dbo.interventions.date_start, dbo.interventions.date_reception, dbo.interventions.date_end
                                 FROM dbo.interventions
                                 JOIN dbo.rig
                                 ON dbo.rig.id = dbo.interventions.id_rig
