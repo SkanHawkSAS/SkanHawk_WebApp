@@ -17,7 +17,9 @@ def addTrip(rig, client, well, activity, intervention, pipe, key, dateStart, dat
     
     # Agrego la información del viaje
     # Obtengo id de la intervención
-    query_interv = f''' SELECT [dbo].[interventions].id FROM [dbo].[interventions] INNER JOIN dbo.well ON dbo.interventions.id_well = dbo.well.id WHERE name_well = '{pozo}' AND dbo.interventions.name = '{interv}'  '''
+    query_interv = f''' SELECT [dbo].[interventions].id FROM [dbo].[interventions] 
+                        INNER JOIN dbo.well ON dbo.interventions.id_well = dbo.well.id 
+                        WHERE name_well = '{pozo}' AND dbo.interventions.name = '{interv}'  '''
     
     df_interv = pd.read_sql(query_interv, engine)
     
@@ -148,9 +150,17 @@ def addTrip(rig, client, well, activity, intervention, pipe, key, dateStart, dat
         print('No se encontraron pruebas de presión') 
         print() 
         
-def updateTrip(id_trip, activity, intervention, pipe, key, dateStart, dateEnd, comments):
+def updateTrip(id_trip, well, activity, intervention, pipe, key, dateStart, dateEnd, comments):
+    
+    # Obtengo el id del pozo
+    query_well = f''' SELECT id FROM [dbo].[well] WHERE name_well = '{well}' '''
+    
+    df_well = pd.read_sql(query_well, engine)
+    
+    id_well = df_well.iloc[0,0]
+    
     # Obtengo el id de la intervencion
-    query_intervention = f''' SELECT id FROM [dbo].[intervention] WHERE name = '{intervention}' '''
+    query_intervention = f''' SELECT id FROM [dbo].[interventions] WHERE name = '{intervention}' AND id_well = '{id_well}'  '''
     
     df_intervention = pd.read_sql(query_intervention, engine)
     
