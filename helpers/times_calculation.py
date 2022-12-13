@@ -76,6 +76,7 @@ def pruebas_presion(fecha_inicio, fecha_fin, cliente, rig, pozo, actividad, deta
 
 # Función para detectar los momentos del bloque y el numero de tuberia correspondiente
 def deteccion_momentos_bloque(data, actividad, tuberia):
+    print(data.head(1))
     
     # Convierto la columna de fecha_hora a formato datetime
     data["fecha_hora"] = pd.to_datetime(data["fecha_hora"])
@@ -290,6 +291,7 @@ def deteccion_momentos_bloque(data, actividad, tuberia):
 
 # Función para calcular los tiempos del viaje
 def tiempos_tuberia(data, actividad):
+    print(data.head(1))
     
     maxTub = data.iloc[-1, -2]
     fecha_hora_inicio = []
