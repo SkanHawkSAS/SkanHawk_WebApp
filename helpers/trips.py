@@ -4,7 +4,8 @@ import pandas as pd
 from helpers.times_calculation import *
 
 def addTrip(rig, client, well, activity, intervention, pipe, key, dateStart, dateEnd, comments):
-    torre = rig
+    torre =  'IndependenceRig' + rig.split('-')[-1]
+    print(torre)
     cliente = client
     pozo = well
     actividad = activity
