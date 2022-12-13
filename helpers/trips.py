@@ -180,7 +180,7 @@ def updateTrip(id_trip, activity, well, intervention, pipe, key, dateStart, date
     
     query = f''' UPDATE [dbo].[trips]
                 SET id_interventions = '{id_intervention}', id_pipe = '{id_pipe}', 
-                key = '{key}', date_start = '{dateStart}', date_end = '{dateEnd}', 
+                [key] = '{key}', date_start = '{dateStart}', date_end = '{dateEnd}', 
                 comments = '{comments}', activity = '{activity}'  
                 WHERE id = {id_trip}  '''
                 
