@@ -113,6 +113,7 @@ def GetRigDataUpdateDB(id: int):
 async def GetRigDataHist(id:int, hoursBefore: int = 24, dateStart: str ='', dateEnd: str = '', cliente: str = 'ECOPETROL'):
     print(dateStart)
     print(dateEnd)
+    print(cliente)
     
     if dateStart == '':
 
@@ -123,6 +124,7 @@ async def GetRigDataHist(id:int, hoursBefore: int = 24, dateStart: str ='', date
         return dataDB
     else:
         if cliente == 'ECOPETROL':
+            print('hola ecop')
         
             from config.db_ecop import engine as engine_op
             from config.db_ecop import conn as dataconn
@@ -135,7 +137,7 @@ async def GetRigDataHist(id:int, hoursBefore: int = 24, dateStart: str ='', date
             return dataconn.execute(query).fetchall()
     
         else:
-            print('Holas')
+            print('Hola oxy')
             from config.db_oxy import engine as engine_op
             from config.db_oxy import conn as dataconn
             # Consulta SQL para solicitar los datos operacionales
