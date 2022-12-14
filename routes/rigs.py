@@ -135,7 +135,7 @@ async def GetRigDataHist(id:int, hoursBefore: int = 24, dateStart: str ='', date
             return dataconn.execute(query).fetchall()
     
         else:
-            
+            print('Holas')
             from config.db_oxy import engine as engine_op
             from config.db_oxy import conn as dataconn
             # Consulta SQL para solicitar los datos operacionales
