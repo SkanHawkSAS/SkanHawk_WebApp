@@ -101,9 +101,12 @@ def GetSurvey(id: int):
         dict_res["easting"] = row.easting
         if i < 11:
             print(dict_res)
+            print(dicts)
             
         i+=1
         dicts.append(dict_res)
+        
+    
 
 
     return dicts
