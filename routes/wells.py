@@ -78,7 +78,6 @@ def GetSurvey(id: int):
     pos_tvdss = pos.to_tvdss(datum_elevation = 0)
     
     df = pd.DataFrame()
-    
     df['MD'] = resampled_dev.md
     df['inclination'] = resampled_dev.inc
     df['azimuth'] = resampled_dev.azi
@@ -87,7 +86,21 @@ def GetSurvey(id: int):
     df['easting'] = pos_tvdss.easting
     print(df.head(5))
     
-    return df
+    dict_res = {}
+
+    dicts = []
+    
+    for row in df.itertuples():
+        dict_res["md"] = row.md
+        dict_res["inclination"] = row.inclination
+        dict_res["azimuth"] = row.azimuth
+        dict_res["TVD"] = row.TVD
+        dict_res["northing"] = row.northing
+        dict_res["easting"] = row.easting
+        dicts.append(dict_res)
+
+
+    return dicts
     
     
 
