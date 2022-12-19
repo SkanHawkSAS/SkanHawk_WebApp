@@ -104,7 +104,12 @@ def GetSurvey(id: int):
             print(dicts)
             
         i+=1
-        dicts.append(dict_res)
+        dicts.append({"md": row.MD, 
+                      "inclination": row.inclination,
+                      "azimuth": row.azimuth,
+                      "tvd": row.TVD,
+                      "northing": row.northing,
+                      "easting": row.easting})
         
     
 
