@@ -79,14 +79,14 @@ def GetSurvey(id: int):
     
     df = pd.DataFrame()
     
-    # df['MD'] = dev.md
-    # df['inclination'] = dev.inc
-    # df['azimuth'] = dev.azi
+    df['MD'] = resampled_dev.md
+    df['inclination'] = resampled_dev.inc
+    df['azimuth'] = resampled_dev.azi
     df['TVD'] = pos_tvdss.depth
     df['northing'] = pos_tvdss.northing
     df['easting'] = pos_tvdss.easting
     
-    return df
+    return df.to_json()
     
     
 
