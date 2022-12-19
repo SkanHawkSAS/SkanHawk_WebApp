@@ -44,7 +44,7 @@ def DeleteIntervention(id:int):
         return Exception
     
 @wells.get('/wells/{id}/survey')
-def GetSurvey():
+def GetSurvey(id: int):
     # Libreria de calculos de pozos
     import wellpathpy as wp
     
