@@ -85,6 +85,7 @@ def GetSurvey(id: int):
     df['TVD'] = pos_tvdss.depth
     df['northing'] = pos_tvdss.northing
     df['easting'] = pos_tvdss.easting
+    print(df.head(5))
     
     return df
     
