@@ -92,7 +92,6 @@ def GetSurvey(id: int):
     i = 0
     
     for row in df.itertuples():
-        print(row.TVD)
         
         dict_res["md"] = row.MD
         dict_res["inclination"] = row.inclination
