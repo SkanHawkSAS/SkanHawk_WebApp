@@ -4,6 +4,7 @@ from routes.rigs import rig
 from routes.auth import auth
 from routes.interventions import interventions
 from routes.pipes import pipes
+from routes.wells import wells
 from routes.trips import trips
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -27,3 +28,4 @@ app.include_router(auth)
 app.include_router(interventions)
 app.include_router(pipes)
 app.include_router(trips)
+app.include_router(wells)
