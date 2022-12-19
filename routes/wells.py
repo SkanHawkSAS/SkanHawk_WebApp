@@ -5,6 +5,7 @@ from config.analytic_db import conn as psconn
 from middlewares.verifyTokenRoute import VerifyTokenRoute
 from schemas.well import Well
 from helpers.wells import *
+import pandas as pd
 
 
 wells = APIRouter(prefix='/analytic')#route_class=VerifyTokenRoute)
@@ -44,7 +45,49 @@ def DeleteIntervention(id:int):
     
 @wells.get('/wells/{id}/survey')
 def GetSurvey():
-    pass
+    # Libreria de calculos de pozos
+    import wellpathpy as wp
+    
+    query = f''' SELECT [id]
+                ,[order_id]
+                ,[measured_depth]
+                ,[inclination]
+                ,[azimut]
+                ,[true_vertical_depth]
+                ,[dogleg_severity]
+                FROM [dbo].[survey] 
+                WHERE id_well = {id} '''
+    df_survey  = pd.read_sql(query, engine)
+    md = df_survey['measured_depth']
+    inc = df_survey['inclination']
+    azi = df_survey['azimut']
+    
+    # Calculos de desviacion
+    dev = wp.deviation(md, inc, azi)
+    
+    
+    depth_step = 1
+    depths = list(range(0,int(dev.md[-1])+1, depth_step))
+    depths[-1]
+    
+    pos = dev.minimum_curvature().resample(depths=depths)
+    pos 
+    
+    resampled_dev = pos.deviation()
+    
+    pos_tvdss = pos.to_tvdss(datum_elevation = 0)
+    
+    df = pd.DataFrame()
+    
+    df['MD'] = dev.md
+    df['inclination'] = dev.inc
+    df['azimuth'] = dev.azi
+    df['TVD'] = pos_tvdss.depth
+    df['northing'] = pos_tvdss.northing
+    df['easting'] = pos_tvdss.easting
+    
+    return df
+    
     
 
     
