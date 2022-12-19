@@ -86,7 +86,7 @@ def GetSurvey(id: int):
     df['northing'] = pos_tvdss.northing
     df['easting'] = pos_tvdss.easting
     
-    return df.to_json()
+    return df
     
     
 
