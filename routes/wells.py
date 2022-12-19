@@ -79,9 +79,9 @@ def GetSurvey(id: int):
     
     df = pd.DataFrame()
     
-    df['MD'] = dev.md
-    df['inclination'] = dev.inc
-    df['azimuth'] = dev.azi
+    # df['MD'] = dev.md
+    # df['inclination'] = dev.inc
+    # df['azimuth'] = dev.azi
     df['TVD'] = pos_tvdss.depth
     df['northing'] = pos_tvdss.northing
     df['easting'] = pos_tvdss.easting
