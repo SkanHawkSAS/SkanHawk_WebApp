@@ -64,9 +64,18 @@ def addWell(client, well, zone, field, cluster, longitude, latitude):
     
     return conn.execute(query_insert_well)
     
-def updateWell(id_well, cluster, name, longitude, latitude):
+def updateWell(id_well, cluster, field, name, longitude, latitude):
     
-    query_cluster = f''' SELECT id FROM [dbo].[cluster] WHERE name = '{cluster}' '''
+    
+    # Obtengo el id del campo 
+    query_campo = f''' SELECT id FROM [dbo].[field] WHERE name_field = '{field}' '''
+    
+    df_campo = pd.read_sql(query_campo, engine)
+    
+    id_campo = df_campo.iloc[0,0]
+    
+    # Obtengo el id del cluster
+    query_cluster = f''' SELECT id FROM [dbo].[cluster] WHERE name_cluster = '{cluster}' AND id_field = '{id_campo}' '''
     
     df_cluster = pd.read_sql(query_cluster, engine)
     
