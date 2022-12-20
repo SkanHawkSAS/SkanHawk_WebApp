@@ -12,31 +12,49 @@ def addWell(client, well, zone, field, cluster, longitude, latitude):
     
     id_client = df_client.iloc[0,0]
     
-    query_insert_zone = f''' INSERT INTO [dbo].[zone] (name)
-                                  VALUES ('{zone}') '''
     query_zone = f''' SELECT id FROM [dbo].[zone] WHERE name = '{zone}' '''
-
-    conn.execute(query_insert_zone)
+    
     df_zone = pd.read_sql(query_zone, engine)
+    
+    if df_zone.empty:
+        query_insert_zone = f''' INSERT INTO [dbo].[zone] (name)
+                                    VALUES ('{zone}') '''
+        
+        conn.execute(query_insert_zone)
+        
+        df_zone = pd.read_sql(query_zone, engine)
         
     id_zone = df_zone.iloc[0,0]
     
-    query_insert_field = f''' INSERT INTO [dbo].[field] (id_client, id_zone , name_field)
-                                VALUES ('{id_client}', '{id_zone}', '{field}') '''
+    ## CAMPO
+    
     query_field = f''' SELECT id FROM [dbo].[field] WHERE name_field = '{field}' '''
 
-    conn.execute(query_insert_field)
     df_field = pd.read_sql(query_field, engine)
     
+    if df_field.empty:
+        query_insert_field = f''' INSERT INTO [dbo].[field] (id_client, id_zone , name_field)
+                                    VALUES ('{id_client}', '{id_zone}', '{field}') '''
+        conn.execute(query_insert_field)
+        
+        df_field = pd.read_sql(query_field, engine)
+        
     id_field = df_field.iloc[0,0]
     
     
-    query_insert_cluster = f''' INSERT INTO [dbo].[cluster] (id_field, name_cluster)
-                                VALUES ('{id_field}', '{cluster}') '''
+    
+    
+    ## CLUSTER
+    
     query_cluster = f''' SELECT id FROM [dbo].[cluster] WHERE name_cluster = '{cluster}' '''
     
-    conn.execute(query_insert_cluster)
     df_cluster = pd.read_sql(query_cluster, engine)
+    
+    if df_cluster.empty:
+        query_insert_cluster = f''' INSERT INTO [dbo].[cluster] (id_field, name_cluster)
+                                VALUES ('{id_field}', '{cluster}') '''
+        conn.execute(query_insert_cluster)
+        df_cluster = pd.read_sql(query_cluster, engine)
 
     id_cluster = df_cluster.iloc[0,0]
     
