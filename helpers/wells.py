@@ -42,7 +42,7 @@ def addWell(client, well, zone, field, cluster, longitude, latitude):
     
     
     query_insert_well = f''' INSERT INTO [dbo].[well] (id_cluster, name_well, longitude, latitude)
-                                  VALUES ('{id_cluster}', '{well}, {longitude}, {latitude}') '''
+                                  VALUES ('{id_cluster}', '{well}', '{longitude}', '{latitude}') '''
     
     return conn.execute(query_insert_well)
     
