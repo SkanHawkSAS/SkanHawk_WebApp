@@ -46,7 +46,7 @@ def addWell(client, well, zone, field, cluster, longitude, latitude):
     
     conn.execute(query_insert_well)
     
-def updateWell(id_well, cluster, longitude, latitude):
+def updateWell(id_well, cluster, name, longitude, latitude):
     
     query_cluster = f''' SELECT id FROM [dbo].[cluster] WHERE name = '{cluster}' '''
     
@@ -56,7 +56,7 @@ def updateWell(id_well, cluster, longitude, latitude):
     id_cluster = df_cluster.iloc[0,0]
     
     query = f''' UPDATE [dbo].[well]
-                SET id_cluster = '{id_cluster}', longitude = '{longitude}', 
+                SET id_cluster = '{id_cluster}', name_well = '{name}', longitude = '{longitude}', 
                 latitude = '{latitude}'
                 WHERE id = {id_well}  '''
                 

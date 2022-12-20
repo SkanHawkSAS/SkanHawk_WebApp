@@ -13,7 +13,7 @@ wells = APIRouter(prefix='/analytic')#route_class=VerifyTokenRoute)
 
 @wells.get('/wells')
 def Getwells():
-    return psconn.execute(''' SELECT dbo.well.id, dbo.well.name_well, dbo.cluster.name_cluster as cluster, dbo.client.name as owner, dbo.field.name_field as field, dbo.zone.name as zone
+    return psconn.execute(''' SELECT dbo.well.id, dbo.well.name_well, dbo.cluster.name_cluster as cluster, dbo.client.name as owner, dbo.field.name_field as field, dbo.zone.name as zone, dbo.well.latitude, dbo.well.longitude
                                 FROM dbo.well
                                 JOIN dbo.cluster
                                 ON dbo.well.id_cluster = dbo.cluster.id
@@ -39,7 +39,7 @@ def CreateWell(client, zone, field, well: Well):
 @wells.put('/wells/{id}')
 def UpdateWell(id:int, well: Well):
     try:
-        updateWell(id_well=id, cluster=well.cluster, 
+        updateWell(id_well=id, cluster=well.cluster, name=well.name, 
                    longitude=well.longitude, latitude=well.latitude)
         return "Well updated Successfully"
     except Exception as e:
