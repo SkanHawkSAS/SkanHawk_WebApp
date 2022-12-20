@@ -27,10 +27,10 @@ def Getwells():
 
     
 @wells.post('/wells')
-def CreateWell(client, zone, field, well: Well):
+def CreateWell(well: Well):
     try:
-        addWell(client=client, well=well.name, 
-            zone=zone, field=field, cluster=well.cluster, 
+        addWell(client=well.owner, well=well.name, 
+            zone=well.zone, field=well.field, cluster=well.cluster, 
             longitude=well.longitude, latitude=well.latitude)
         return "Well created Successfully"
     except Exception as e:
