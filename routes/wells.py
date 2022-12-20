@@ -34,7 +34,7 @@ def CreateWell(well: Well):
 
 @wells.put('/wells/{id}')
 def UpdateWell(id:int, well: Well):
-    return updateWell(id_well=id, cluster=well.cluster, name=well.name, field=well.field 
+    return updateWell(id_well=id, cluster=well.cluster, name=well.name, field=well.field,
                    longitude=well.longitude, latitude=well.latitude)
 
 @wells.delete('/wells/{id}')
