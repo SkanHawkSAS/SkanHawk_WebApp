@@ -69,17 +69,3 @@ def deleteWell(id_well):
             WHERE id = {id_well} '''
     conn.execute(query)  
     
-def calculateSurvey(id_well):
-    
-    query = f''' SELECT [id]
-                ,[order_id]
-                ,[measured_depth]
-                ,[inclination]
-                ,[azimut]
-                ,[true_vertical_depth]
-                ,[dogleg_severity]
-                FROM [dbo].[survey] 
-                WHERE id_well = {id_well} '''
-    df_survey  = pd.read_sql(query, engine)
-    
-    pass

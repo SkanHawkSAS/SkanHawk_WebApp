@@ -27,21 +27,31 @@ def Getwells():
 
     
 @wells.post('/wells')
-def CreateTrip(well: Well):
-    
-    pass
+def CreateWell(client, zone, field, well: Well):
+    try:
+        addWell(client=client, well=well.name, 
+            zone=zone, field=field, cluster=well.cluster, 
+            longitude=well.longitude, latitude=well.latitude)
+        return "Well created Successfully"
+    except Exception as e:
+        return e
 
 @wells.put('/wells/{id}')
-def EditIntervention(id:int, well: Well):
-    pass
+def UpdateWell(id:int, well: Well):
+    try:
+        updateWell(id_well=id, cluster=well.cluster, 
+                   longitude=well.longitude, latitude=well.latitude)
+        return "Well updated Successfully"
+    except Exception as e:
+        return e
 
 @wells.delete('/wells/{id}')
-def DeleteIntervention(id:int):
+def DeleteWell(id:int):
     try:
         deleteWell(id)
         return "Well deleted Successfully"
     except Exception as e:
-        return Exception
+        return e
     
 @wells.get('/wells/{id}/survey')
 def GetSurvey(id: int):
@@ -84,9 +94,7 @@ def GetSurvey(id: int):
     df['TVD'] = pos_tvdss.depth
     df['northing'] = pos_tvdss.northing
     df['easting'] = pos_tvdss.easting
-    print(df.head(5))
     
-    dict_res = {}
 
     dicts = []
     i = 0
