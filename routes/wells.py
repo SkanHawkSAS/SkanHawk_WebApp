@@ -28,30 +28,18 @@ def Getwells():
     
 @wells.post('/wells')
 def CreateWell(well: Well):
-    try:
-        addWell(client=well.owner, well=well.name, 
+    return addWell(client=well.owner, well=well.name, 
             zone=well.zone, field=well.field, cluster=well.cluster, 
             longitude=well.longitude, latitude=well.latitude)
-        return "Well created Successfully"
-    except Exception as e:
-        return e
 
 @wells.put('/wells/{id}')
 def UpdateWell(id:int, well: Well):
-    try:
-        updateWell(id_well=id, cluster=well.cluster, name=well.name, 
+    return updateWell(id_well=id, cluster=well.cluster, name=well.name, 
                    longitude=well.longitude, latitude=well.latitude)
-        return "Well updated Successfully"
-    except Exception as e:
-        return e
 
 @wells.delete('/wells/{id}')
 def DeleteWell(id:int):
-    try:
-        deleteWell(id)
-        return "Well deleted Successfully"
-    except Exception as e:
-        return e
+    return deleteWell(id)
     
 @wells.get('/wells/{id}/survey')
 def GetSurvey(id: int):

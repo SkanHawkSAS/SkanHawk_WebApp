@@ -44,7 +44,7 @@ def addWell(client, well, zone, field, cluster, longitude, latitude):
     query_insert_well = f''' INSERT INTO [dbo].[well] (id_cluster, name_well, longitude, latitude)
                                   VALUES ('{id_cluster}', '{well}, {longitude}, {latitude}') '''
     
-    conn.execute(query_insert_well)
+    return conn.execute(query_insert_well)
     
 def updateWell(id_well, cluster, name, longitude, latitude):
     
@@ -61,11 +61,11 @@ def updateWell(id_well, cluster, name, longitude, latitude):
                 WHERE id = {id_well}  '''
                 
 
-    conn.execute(query)
+    return conn.execute(query)
 
 def deleteWell(id_well):
     # Elimino el pozo
     query = f''' DELETE FROM [dbo].[well]
             WHERE id = {id_well} '''
-    conn.execute(query)  
+    return conn.execute(query)  
     
