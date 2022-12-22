@@ -35,7 +35,7 @@ def CreateRig(rig: Rig):
     result = psconn.execute(f''' INSERT INTO [dbo].[rig]
            ([name_rig])
      VALUES
-           ({rig.name}) ''')
+           ('{rig.name}') ''')
     return "Rig added successfully"
 
 @rig.put('/rigs/{id}')
