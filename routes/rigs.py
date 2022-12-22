@@ -1,7 +1,7 @@
 # Librerias de desarrollo web
 from fastapi import APIRouter, Response
 from fastapi.responses import HTMLResponse
-from config.db import conn as psconn
+from config.analytic_db import conn as psconn
 from config.sqlServer import conn as sqlconn
 from config.sqlServer import engine as sqlEngine
 from models.opData import opsData
@@ -27,19 +27,23 @@ rig = APIRouter()#route_class=VerifyTokenRoute)
 ##### CRUD 
 @rig.get('/rigs')
 def GetRig():
-    return psconn.execute(rigs.select()).fetchall()
+    return psconn.execute(''' SELECT * FROM dbo.rig ''').fetchall()
 
 @rig.post('/rigs')
 def CreateRig(rig: Rig):
-    new_rig = {"number": rig.number, "zone": rig.zone, "operator": rig.operator, "owner": rig.owner}
-    result = psconn.execute(rigs.insert().values(new_rig))
+    
+    result = psconn.execute(f''' INSERT INTO [dbo].[rig]
+           ([name_rig])
+     VALUES
+           ({rig.name}) ''')
     return "Rig added successfully"
 
 @rig.put('/rigs/{id}')
 def EditRig(id:int, rig:Rig):
-    psconn.execute(rigs.update().values(number=rig.number, zone=rig.zone, operator=rig.operator, owner=rig.owner).where(rigs.c.id == id))
-    rig = psconn.execute(rigs.select().where(rigs.c.id == id)).first()
-    return f' Se actualizó correctamente el Rig {rig.number}'
+    psconn.execute(f''' UPDATE [dbo].[rig]
+                        SET [name_rig] = '{rig.name}'
+                        WHERE id = {rig.id} ''')
+    return f' Se actualizó correctamente el Rig {rig.name}'
 
 @rig.delete('/rigs/{id}')
 def DeleteRig(id:int):
