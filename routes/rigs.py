@@ -42,14 +42,13 @@ def CreateRig(rig: Rig):
 def EditRig(id:int, rig:Rig):
     psconn.execute(f''' UPDATE [dbo].[rig]
                         SET [name_rig] = '{rig.name}'
-                        WHERE id = {rig.id} ''')
-    return f' Se actualizó correctamente el Rig {rig.name}'
+                        WHERE id = {id} ''')
+    return f' Rig {rig.name} updated successfully'
 
 @rig.delete('/rigs/{id}')
 def DeleteRig(id:int):
-    rig = psconn.execute(rigs.select().where(rigs.c.id == id)).first()
-    psconn.execute(rigs.delete().where(rigs.c.id == id))
-    return f"se elimino el Rig {rig.number}"
+    query = psconn.execute(f''' DELETE FROM dbo.rig WHERE id = {id} ''')
+    return f"Rig deleted successfully"
 
 ##########################################################################################################################
 ## Funcionalidades
