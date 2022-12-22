@@ -16,7 +16,7 @@ def addPipe(name, tq_min, tq_optimum, tq_max):
 def updatePipe(id_pipe, name, tq_min, tq_optimum, tq_max):
     query = f''' UPDATE [dbo].[pipe_details]
                 SET [name] = '{name}'
-                    ,[torque_min] = {tq_min}>
+                    ,[torque_min] = {tq_min}
                     ,[torque_optimum] = {tq_optimum}
                     ,[torque_max] = {tq_max}
                 WHERE id = {id_pipe} '''
