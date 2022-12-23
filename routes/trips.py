@@ -11,8 +11,8 @@ from helpers.trips import *
 trips = APIRouter(prefix='/analytic')#route_class=VerifyTokenRoute)
 
 
-@trips.get('/trips/{page}')
-def GetTrips(page: int):
+@trips.get('/trips')
+def GetTrips():
     # return psconn.execute(f'''SELECT id, client,rig,  well, 
     #                         intervention, zone, 
     #                         date_start, date_end, activity, pipe, [key] , comments
