@@ -4,6 +4,7 @@ from fastapi.responses import HTMLResponse
 from config.analytic_db import conn as psconn
 from config.sqlServer import conn as sqlconn
 from config.sqlServer import engine as sqlEngine
+from config.db import conn as dbconn
 from models.opData import opsData
 from schemas.opData import OpData
 from models.rig import rigs
@@ -57,7 +58,7 @@ def GetRigDataUpdateDB(id: int):
 
     # Obtengo la ultima fila
 
-    dataDB = psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
+    dataDB = dbconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
     dataDB = pd.DataFrame(dataDB)
     lastRegDate = dataDB['fechaHora'][0]
 
@@ -194,7 +195,7 @@ async def GetRigDataRT(id:int):
                                 "profundidad": row.profundidad,
                                 "contadorTuberia": row.contador_tuberia,
                                 "operacion": row.operacion}
-                psconn.execute(opsData.insert().values(new_data))
+                dbconn.execute(opsData.insert().values(new_data))
         else:
             new_data = {"fechaHora": row.fecha_hora,
                                 "deviceId": row.deviceId,
@@ -204,7 +205,7 @@ async def GetRigDataRT(id:int):
                                 "profundidad": row.profundidad,
                                 "contadorTuberia": row.contador_tuberia,
                                 "operacion": row.operacion}
-            psconn.execute(opsData.insert().values(new_data))  
+            dbconn.execute(opsData.insert().values(new_data))  
     rslt_df = data[dataDB['fechaHora'][0]<data['fecha_hora']]
 
     if rslt_df.empty:
@@ -233,10 +234,10 @@ async def GetRigDataRT(id:int):
 
 
 async def getDataQuery1(id):
-    return psconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
+    return dbconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
 
 async def getDataQuery2(id, reg):
-    return psconn.execute(opsData.select().order_by(opsData.c.id).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
+    return dbconn.execute(opsData.select().order_by(opsData.c.id).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
 
 
 # funcion que aplica el modelo de IA
