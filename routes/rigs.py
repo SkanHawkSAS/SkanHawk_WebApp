@@ -7,7 +7,6 @@ from config.sqlServer import engine as sqlEngine
 from config.db import conn as dbconn
 from models.opData import opsData
 from schemas.opData import OpData
-from models.rig import rigs
 from schemas.rig import Rig
 import json
 from sqlalchemy import desc
@@ -137,7 +136,8 @@ async def GetRigDataHist(id:int, hoursBefore: int = 24, dateStart: str ='', date
             query = f'''SELECT
             fecha_hora, deviceId, posicion_bloque, velocidad_bloque, carga_gancho, profundidad, torque_hidraulica_max, torque_potencia_max
             FROM [tlc].[Ecopetrol_Operational_data_SH]
-                WHERE (fecha_hora BETWEEN '{dateStart}' AND '{dateEnd}') AND deviceID ='IndependenceRig{id}' '''
+                WHERE (fecha_hora BETWEEN '{dateStart}' AND '{dateEnd}') AND deviceID ='IndependenceRig{id}' 
+                ORDER BY fecha_hora ASC'''
             return dataconn.execute(query).fetchall()
     
         else:
@@ -237,7 +237,7 @@ async def getDataQuery1(id):
     return dbconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(1)).fetchall()
 
 async def getDataQuery2(id, reg):
-    return dbconn.execute(opsData.select().order_by(opsData.c.id).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
+    return dbconn.execute(opsData.select().order_by(desc(opsData.c.id)).where(opsData.c.deviceId == f'IndependenceRig{id}').limit(reg)).fetchall()
 
 
 # funcion que aplica el modelo de IA
